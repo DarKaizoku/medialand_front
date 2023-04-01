@@ -5,24 +5,29 @@ import K7audio from './components/K7audio';
 import K7video from './components/K7video';
 import Livre from './components/Livre';
 import Login from './components/login';
-import RedPhone from './components/redphone';
-import VinylClick from './components/vinyle';
-import VinylesList from './components/vinyle-list';
+import Neon from './components/neon';
+import Register from './components/register';
+import VinylClick from './components/vinyles/vinyle';
+import VinylesList from './components/vinyles/vinyle-list';
 
 function App() {
+
     const [page, setPage] = useState<string>('Accueil');
 
+
+
     return (
-        <>
-            <BackGround></BackGround>
+        <div className='container h-100 text-center'>
+            {/* <BackGround></BackGround> */}
             {page === 'Login' && <Login setPage={setPage}></Login>}
-            {page !== 'listVinyl' && <VinylClick setPage={setPage}></VinylClick>}
+            {page === 'Register' && <Register setPage={setPage}></Register>}
+            {/* {page !== 'listVinyl' && <VinylClick setPage={setPage}></VinylClick>}
             {page === 'listVinyl' && <VinylesList></VinylesList>}
-            {page === 'Accueil' && <Livre></Livre>}
-            {page === 'Accueil' && <K7audio></K7audio>}
-            {page === 'Accueil' && <K7video></K7video>}
-            <RedPhone setPage={setPage}></RedPhone>
-        </>
+            {page === '' && <Livre></Livre>}
+            {page === '' && <K7audio></K7audio>}
+            {page === '' && <K7video></K7video>} */}
+            <Neon setPage={setPage}></Neon>
+        </div>
     );
 }
 

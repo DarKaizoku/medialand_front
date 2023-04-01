@@ -1,14 +1,13 @@
 import { useState } from 'react';
+import recupMedia from './medias/recupMedia';
 
 const urlLogin = 'http://localhost:8000/auth/login';
-
 
 export default function Login(props: { setPage: (value: string) => void }) {
     const dataLogin = {
         username: '',
         password: '',
     };
-
     const [dataInput, setDataInput] = useState(dataLogin);
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
@@ -35,22 +34,23 @@ export default function Login(props: { setPage: (value: string) => void }) {
             const token = responseJson.access_token;
             localStorage.setItem('token', token);
             props.setPage('Accueil')
+
+            recupMedia()
         }
         fetchData();
-        return (e.target[0] = true);
     };
+
+
+
 
     return (
         <div>
-            <section className='alert vh-100 gradient-custom alert-dismissible'
-                role={'alert'}
-
-            >
+            <section className='alert vh-100 gradient-custom alert-dismissible p-3'
+                role={'alert'}>
                 <div className='container py-5 h-100'>
                     <div className='row d-flex justify-content-center align-items-center h-100'>
                         <div className='col-12 col-md-8 col-lg-6 col-xl-5'>
-                            <div className='card bg-dark text-white rounded zposition'
-                            >
+                            <div className='card bg-dark text-white rounded zposition'>
                                 <div className='card-body p-5 text-center'>
                                     <div className='mb-md-5 mt-md-4 pb-5'>
                                         <h2 className='fw-bold mb-2 text-uppercase'>
@@ -166,6 +166,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                             <a
                                                 href='#!'
                                                 className='text-white-50 fw-bold'
+                                                onClick={() => props.setPage('Register')}
                                             >
                                                 Enregistrez-vous
                                             </a>

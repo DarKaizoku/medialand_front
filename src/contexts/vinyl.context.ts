@@ -1,5 +1,5 @@
- import { useState, createContext } from 'react'
-import { VinylContexttype } from './types/VinylContextType'
+import { useState, createContext } from 'react'
+import { VinylContexttype } from '../types/vinylContextType'
 /*
 export const VinylProviderContext = createContext<VinylContexttype>(null!)
 
