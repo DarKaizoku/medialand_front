@@ -15,6 +15,10 @@ body {
     cursor: pointer;
 }
 
+.copyright{
+    cursor: pointer;
+}
+
 .vinyl {
     height: 12;
     text-align: center;
