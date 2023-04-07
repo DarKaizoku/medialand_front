@@ -32,7 +32,7 @@ export default function Footer() {
                             </h1>
                             <button
                                 type="button"
-                                className="btn-close"
+                                className="btn-close bg-light"
                                 data-bs-dismiss="modal"
                                 aria-label="Close"
                             ></button>

@@ -17,7 +17,6 @@ export default function Login(props: { setPage: (value: string) => void }) {
 
     const submitData = (e: React.BaseSyntheticEvent) => {
         e.preventDefault()
-        console.log(dataInput)
 
         async function fetchData() {
             const response = await fetch(urlLogin, {

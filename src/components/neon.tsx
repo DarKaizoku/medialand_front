@@ -1,12 +1,15 @@
-export default function Neon(props: { setPage: (value: string) => void }) {
+export default function Neon(props: {
+    TOKEN: string | null
+    setPage: (value: string) => void
+}) {
     return (
-        <div className="row align-self-center w-100">
+        <div className="container pe-0 align-self-center w-100">
             <img
-                className="img-fluid neon"
-                src='./images/Neon.gif'
-                alt='background'
-                onClick={() => props.setPage('Login')}
+                className="img-fluid Cpointer"
+                src="./images/Neon.gif"
+                alt="background"
+                onClick={() => (!props.TOKEN ? props.setPage('Login') : null)}
             />
         </div>
-    );
+    )
 }
