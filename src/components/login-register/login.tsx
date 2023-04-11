@@ -41,7 +41,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
     return (
         <div>
             <section
-                className="alert vh-100 gradient-custom alert-dismissible p-3"
+                className="alert gradient-custom alert-dismissible p-3"
                 role={'alert'}
             >
                 <div className="container py-5 h-100">
@@ -58,7 +58,13 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                             votre Mot de Passe !
                                         </p>
 
-                                        <div className="form-outline form-white mb-4">
+                                        <div className="form-outline form-white">
+                                            <label
+                                                className="form-label"
+                                                htmlFor="typeEmailX"
+                                            >
+                                                Pseudo
+                                            </label>
                                             <input
                                                 name="username"
                                                 type="text"
@@ -66,15 +72,24 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                                 className="form-control form-control-lg"
                                                 onChange={(e) => inputChange(e)}
                                             />
-                                            <label
-                                                className="form-label"
-                                                htmlFor="typeEmailX"
-                                            >
-                                                Pseudo
-                                            </label>
                                         </div>
 
-                                        <div className="form-outline form-white mb-4">
+                                        <p className="small pb-lg-2">
+                                            <a
+                                                className="text-white-50"
+                                                href="#!"
+                                            >
+                                                Pseudo oublié ?
+                                            </a>
+                                        </p>
+
+                                        <div className="form-outline form-white">
+                                            <label
+                                                className="form-label"
+                                                htmlFor="typePasswordX"
+                                            >
+                                                Mot de Passe
+                                            </label>
                                             <input
                                                 name="password"
                                                 type="password"
@@ -82,12 +97,6 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                                 className="form-control form-control-lg"
                                                 onChange={(e) => inputChange(e)}
                                             />
-                                            <label
-                                                className="form-label"
-                                                htmlFor="typePasswordX"
-                                            >
-                                                Mot de Passe
-                                            </label>
                                         </div>
 
                                         <p className="small mb-5 pb-lg-2">

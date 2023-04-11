@@ -1,15 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import { TMedia } from '../../types/media.type'
+import { MediaContext } from '../../contexts/medias.context'
 
 export default function RecupMedia(props: {
     TOKEN: string
     setPage: (value: string) => void
-    media: TMedia[]
-    setMedia: (value: TMedia[]) => void
 }) {
-    const { media, setMedia } = props
-
-    //const { media, setMedia } = useContext(MediaContext)
+    const { media, setMedia } = useContext(MediaContext)
 
     let nbVinyles: number = 0
     let nbK7audio: number = 0
@@ -30,7 +27,6 @@ export default function RecupMedia(props: {
             .then((response) => response.json())
             .then((response) => {
                 setMedia(response.data as TMedia[])
-                console.log(media)
             })
             .catch((err) => console.error(err))
     }, [])
@@ -52,7 +48,7 @@ export default function RecupMedia(props: {
                         className="card-img-top Cpointer"
                         src="./images/disk.png"
                         alt="vos vinyles"
-                        onClick={() => props.setPage('listVinyl')}
+                        onClick={() => props.setPage('Vinyles')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbVinyles}
@@ -63,7 +59,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/K7audio-V2.png"
-                        alt="vos vinyles"
+                        alt="vos cassettes audio"
+                        onClick={() => props.setPage('K7audio')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbK7audio}
@@ -85,14 +82,16 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top h-55 w-50 m-auto Cpointer"
                         src="./images/Blu-ray.png"
-                        alt="vos vinyles"
+                        alt="vos Blu-Ray"
+                        onClick={() => props.setPage('Blu-ray')}
                     />
                 </div>
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
                     <img
                         className="card-img-top h-100 w-75 m-auto Cpointer"
                         src="./images/livre.png"
-                        alt="vos vinyles"
+                        alt="vos livres"
+                        onClick={() => props.setPage('Livres')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbLivres}
@@ -103,7 +102,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/PS5.png"
-                        alt="vos vinyles"
+                        alt="vos jeux PS5"
+                        onClick={() => props.setPage('PS5')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbPS5}
@@ -114,7 +114,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/Snes.png"
-                        alt="vos vinyles"
+                        alt="vos vinvos jeux de Super-Nintendo"
+                        onClick={() => props.setPage('Snes')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbSnes}
