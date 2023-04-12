@@ -24,8 +24,6 @@ function App() {
     const [user, setUser] = useState<TUtilisateur>()
     //const [media, setMedia] = useState<TMedia[]>([newMedia])
 
-    console.log(page)
-
     return (
         <MediaProvider>
             <div>
@@ -56,7 +54,7 @@ function App() {
                     {page === 'PS5' && <PS5List />}
                     {page === 'Snes' && <SnesList />}
                 </div>
-                <Footer />
+                <Footer setUser={setUser} setPage={setPage} />
             </div>
         </MediaProvider>
     )

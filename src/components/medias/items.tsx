@@ -12,7 +12,8 @@ export default function Items(props: { medias: TMedia[] }) {
                     <img
                         src="./images/disk.png"
                         className="img-fluid rounded-start"
-                        alt="disque vinyle"
+                        alt={data.titre}
+                        title={data.titre}
                     />
                     <div className="row">
                         <ChangeItem leMedia={data} />

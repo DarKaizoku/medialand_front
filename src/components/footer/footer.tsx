@@ -1,24 +1,43 @@
-export default function Footer() {
+import { TUtilisateur } from '../../types/utilisateur.type'
+
+export default function Footer(props: {
+    setPage: (value: string) => void
+    setUser: (value: TUtilisateur) => void
+}) {
+    const { setPage, setUser } = props
+
     return (
         <div className="container mt-3">
             <footer className="bg-dark text-center text-white fixed-bottom p-auto">
-                <div className="container-fluid row text-center">
-                    <div className="col-10 text-center p-3">
+                <div className="container-fluid row text-center m-0">
+                    <a className="Cpointer col-1 pt-2" title="Déconnexion">
+                        <img
+                            className="m-auto"
+                            src="./images/logout-V2.png"
+                            alt="porte de déconnexion"
+                            onClick={() => {
+                                setPage('Accueil')
+                                localStorage.setItem('token', '')
+                            }}
+                        />
+                    </a>
+                    <div className="col-10 text-center pt-3 pe-0 ps-5">
                         © 2023 Copyright:{' '}
                         <button
                             type="button"
                             className="btn btn-dark pt-0"
                             data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                            data-bs-target="#copyrightModal"
                         >
                             {` W A M`}
                         </button>
                     </div>
-                    <a className="Cpointer col-2" href="#">
+                    <a className="Cpointer col-1" href="#">
                         <img
                             className="m-auto"
                             src="./images/icon-fleche-haut-64.png"
-                            alt=""
+                            alt="retour haut de page"
+                            title="retour haut de page"
                         />
                     </a>
                 </div>
@@ -27,9 +46,9 @@ export default function Footer() {
             {/*Modal du Copyright */}
             <div
                 className="modal fade"
-                id="exampleModal"
+                id="copyrightModal"
                 tabIndex={-1}
-                aria-labelledby="exampleModalLabel"
+                aria-labelledby="copyrightModalLabel"
                 aria-hidden="true"
             >
                 <div className="modal-dialog">
@@ -37,7 +56,7 @@ export default function Footer() {
                         <div className="modal-header">
                             <h1
                                 className="modal-title fs-5"
-                                id="exampleModalLabel"
+                                id="copyrightModalLabel"
                             >
                                 Copyright & Remerciements
                             </h1>

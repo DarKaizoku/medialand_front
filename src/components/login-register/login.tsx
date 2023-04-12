@@ -27,11 +27,11 @@ export default function Login(props: { setPage: (value: string) => void }) {
 
             const responseJson = await response.json()
             if (responseJson.statusCode === 401) {
+                props.setPage('Accueil')
                 return alert(responseJson.message)
             }
             const token = responseJson.access_token
             localStorage.setItem('token', token)
-            //props.setPage('Accueil')
 
             props.setPage('Medias')
         }

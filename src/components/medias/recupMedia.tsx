@@ -31,14 +31,12 @@ export default function RecupMedia(props: {
             .catch((err) => console.error(err))
     }, [])
 
-    if (media[0].id) {
-        nbVinyles = media.filter((data) => data.support.id === 1).length
-        nbK7audio = media.filter((data) => data.support.id === 2).length
-        nbBluray = media.filter((data) => data.support.id === 3).length
-        nbLivres = media.filter((data) => data.support.id === 4).length
-        nbPS5 = media.filter((data) => data.support.id === 5).length
-        nbSnes = media.filter((data) => data.support.id === 6).length
-    }
+    nbVinyles = media.filter((data) => data.support.id === 1).length
+    nbK7audio = media.filter((data) => data.support.id === 2).length
+    nbBluray = media.filter((data) => data.support.id === 3).length
+    nbLivres = media.filter((data) => data.support.id === 4).length
+    nbPS5 = media.filter((data) => data.support.id === 5).length
+    nbSnes = media.filter((data) => data.support.id === 6).length
 
     return (
         <div className="container-fluid">
@@ -47,7 +45,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/disk.png"
-                        alt="vos vinyles"
+                        alt="un vinyle"
+                        title="vos Vinyles"
                         onClick={() => props.setPage('Vinyles')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -59,7 +58,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/K7audio-V2.png"
-                        alt="vos cassettes audio"
+                        alt="une cassette audio"
+                        title="vos K7-audio"
                         onClick={() => props.setPage('K7audio')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -82,7 +82,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top h-55 w-50 m-auto Cpointer"
                         src="./images/Blu-ray.png"
-                        alt="vos Blu-Ray"
+                        alt="un disque Blu-ray"
+                        title="vos Blu-Ray"
                         onClick={() => props.setPage('Blu-ray')}
                     />
                 </div>
@@ -90,7 +91,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top h-100 w-75 m-auto Cpointer"
                         src="./images/livre.png"
-                        alt="vos livres"
+                        alt="un livre ouvert"
+                        title="vos Livres"
                         onClick={() => props.setPage('Livres')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -102,7 +104,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/PS5.png"
-                        alt="vos jeux PS5"
+                        alt="une console PS5"
+                        title="vos jeux PS5"
                         onClick={() => props.setPage('PS5')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -114,7 +117,8 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer"
                         src="./images/Snes.png"
-                        alt="vos vinvos jeux de Super-Nintendo"
+                        alt="une console Super-Nintendo"
+                        title="vos jeux de Super-Nintendo"
                         onClick={() => props.setPage('Snes')}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
