@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { TMedia } from '../types/media.type'
+import { MEDIAZERO } from '../constants/mediaZero'
 
 interface MediaContextProps {
     children: React.ReactElement
@@ -15,24 +16,7 @@ export const MediaContext = React.createContext<MediaContextInterface>({
 })
 
 export const MediaProvider = ({ children }: MediaContextProps) => {
-    const mediaInit = {
-        id: 0,
-        duree: 0,
-        description: '',
-        titre: '',
-        annee: 0,
-        format: 0,
-        support: {
-            id: 0,
-            nom: '',
-        },
-
-        categorie: [],
-
-        auteur: [],
-    } as TMedia
-
-    const [data, setMedia] = useState<TMedia[]>([mediaInit])
+    const [data, setMedia] = useState<TMedia[]>([MEDIAZERO])
 
     const modifMedia = (media: TMedia[]) => {
         setMedia(media)

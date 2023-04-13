@@ -46,7 +46,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
             >
                 <div className="container py-5 h-100">
                     <div className="row d-flex justify-content-center align-items-center h-100">
-                        <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <form className="col-12 col-md-8 col-lg-6 col-xl-5">
                             <div className="card bg-dark text-white rounded zposition">
                                 <div className="card-body p-5 text-center">
                                     <div className="mb-md-5 mt-md-4 pb-5">
@@ -113,6 +113,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                             type="submit"
                                             data-bs-dismiss="alert"
                                             onClick={(e) => submitData(e)}
+                                            onSubmit={(e) => submitData(e)}
                                         >
                                             Login
                                         </button>
@@ -157,7 +158,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </section>

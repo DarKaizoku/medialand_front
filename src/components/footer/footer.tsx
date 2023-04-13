@@ -1,27 +1,46 @@
+import { TCompte } from '../../types/compte.type'
 import { TUtilisateur } from '../../types/utilisateur.type'
 
 export default function Footer(props: {
     setPage: (value: string) => void
-    setUser: (value: TUtilisateur) => void
+    setCompte: (value: TCompte | undefined) => void
 }) {
-    const { setPage, setUser } = props
+    const TOKEN = localStorage.getItem('token')
+    const { setPage, setCompte } = props
 
     return (
         <div className="container mt-3">
-            <footer className="bg-dark text-center text-white fixed-bottom p-auto">
-                <div className="container-fluid row text-center m-0">
-                    <a className="Cpointer col-1 pt-2" title="Déconnexion">
-                        <img
-                            className="m-auto"
-                            src="./images/logout-V2.png"
-                            alt="porte de déconnexion"
-                            onClick={() => {
-                                setPage('Accueil')
-                                localStorage.setItem('token', '')
-                            }}
-                        />
-                    </a>
-                    <div className="col-10 text-center pt-3 pe-0 ps-5">
+            <footer className="bg-dark text-center text-white fixed-bottom">
+                <div className="container-fluid row justify-content-between text-center m-0 p-0">
+                    {TOKEN && (
+                        <div className="col-2 col-lg-1 pt-2">
+                            <img
+                                className="m-auto Cpointer img-fluid"
+                                src="./images/logout-V3.png"
+                                alt="porte entreouverte"
+                                title="Déconnexion"
+                                onClick={() => {
+                                    setPage('Accueil')
+                                    localStorage.setItem('token', '')
+                                    setCompte(undefined)
+                                }}
+                            />
+                        </div>
+                    )}
+                    {TOKEN && (
+                        <div className="col-2 col-lg-1 pt-2">
+                            <img
+                                className="m-auto Cpointer img-fluid"
+                                src="./images/compte.png"
+                                alt="engrenage avec une silhouette en son centre"
+                                title="Mon compte"
+                                onClick={() => {
+                                    setPage('MonCompte')
+                                }}
+                            />
+                        </div>
+                    )}
+                    <div className="col-6 col-lg-9 text-center pt-3">
                         © 2023 Copyright:{' '}
                         <button
                             type="button"
@@ -32,13 +51,15 @@ export default function Footer(props: {
                             {` W A M`}
                         </button>
                     </div>
-                    <a className="Cpointer col-1" href="#">
-                        <img
-                            className="m-auto"
-                            src="./images/icon-fleche-haut-64.png"
-                            alt="retour haut de page"
-                            title="retour haut de page"
-                        />
+                    <a className="Cpointer col-2 col-lg-1 pt-2" href="#">
+                        <div>
+                            <img
+                                className="m-auto img-fluid"
+                                src="./images/icon-fleche-haut-64.png"
+                                alt="retour haut de page"
+                                title="retour haut de page"
+                            />
+                        </div>
                     </a>
                 </div>
             </footer>

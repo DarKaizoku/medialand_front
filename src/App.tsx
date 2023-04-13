@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 import Login from './components/login-register/login'
@@ -16,19 +16,39 @@ import BlurayList from './components/supports/bluray-list'
 import LivreList from './components/supports/livres-list'
 import PS5List from './components/supports/PS5-list'
 import SnesList from './components/supports/Snes-list'
+import { ChangeUser } from './components/login-register/changeUser'
+import { TCompte } from './types/compte.type'
 
 function App() {
     const TOKEN = localStorage.getItem('token')
 
     const [page, setPage] = useState<string>('Accueil')
     const [user, setUser] = useState<TUtilisateur>()
-    //const [media, setMedia] = useState<TMedia[]>([newMedia])
+    const [compte, setCompte] = useState<TCompte | undefined>()
+
+    useEffect(() => {
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }
+
+        fetch('http://localhost:8000/utilisateurs/moncompte', options)
+            .then((response) => response.json())
+            .then((data) => {
+                setCompte(data.data)
+                console.log(compte)
+            })
+            .catch((erreur) => `${erreur}`)
+    }, [page])
 
     return (
         <MediaProvider>
             <div>
                 <div className="container h-100 text-center pb-5">
-                    {!TOKEN && page === 'Accueil' && <CarouselVideo />}
+                    {!TOKEN && <CarouselVideo />}
 
                     <Neon TOKEN={TOKEN} setPage={setPage} />
 
@@ -38,6 +58,13 @@ function App() {
                             setPage={setPage}
                             setUser={setUser}
                             user={user!}
+                        />
+                    )}
+                    {page === 'MonCompte' && (
+                        <ChangeUser
+                            setPage={setPage}
+                            compte={compte!}
+                            setCompte={setCompte}
                         />
                     )}
                     {TOKEN && (
@@ -54,7 +81,7 @@ function App() {
                     {page === 'PS5' && <PS5List />}
                     {page === 'Snes' && <SnesList />}
                 </div>
-                <Footer setUser={setUser} setPage={setPage} />
+                <Footer setPage={setPage} setCompte={setCompte} />
             </div>
         </MediaProvider>
     )
