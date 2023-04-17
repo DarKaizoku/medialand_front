@@ -7,6 +7,7 @@ export const MEDIAZERO = {
     titre: '',
     annee: 0,
     format: 0,
+    emplacement: '',
     support: {
         id: 0,
         nom: '',

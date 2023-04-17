@@ -8,6 +8,7 @@ export type TMedia = {
     duree: number, //en minutes
     description: string,
     annee: number,
+    emplacement: string,
     format: number, //0:physique, 1:dématérialisé, 2: les deux
 
     support: TSupport

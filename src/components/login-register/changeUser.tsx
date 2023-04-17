@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { TCompte } from '../../types/compte.type'
 
 export function ChangeUser(props: {
@@ -6,11 +7,44 @@ export function ChangeUser(props: {
     setCompte: (value: TCompte) => void
 }) {
     const { compte, setCompte } = props
+    const TOKEN = localStorage.getItem('token')
+
+    const [mdpOK, setMdpOK] = useState<string>('')
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         const { name, value } = e.target
+        if (name !== 'passwordConfirmed') {
+            setCompte({ ...compte, [name]: value })
+        } else {
+            setMdpOK(value)
+        }
+    }
 
-        setCompte({ ...compte, [name]: value })
+    const update = (e: React.BaseSyntheticEvent) => {
+        e.preventDefault()
+
+        if (compte.password !== mdpOK) {
+            return alert('Vérifiez la saisie du mot de passe')
+        }
+
+        const jsonCompte = JSON.stringify(compte)
+
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${TOKEN}`,
+            },
+            body: jsonCompte,
+        }
+
+        fetch('http://localhost:8000/utilisateurs/update', options)
+            .then((response) => response.json())
+            .then((data) => setCompte(data))
+
+            .catch((erreur) => `${erreur}`)
+
+        alert('Votre compte a été modifié avec Succès !!')
     }
 
     return (
@@ -170,9 +204,7 @@ export function ChangeUser(props: {
                                             <button
                                                 type="submit"
                                                 className="btn btn-warning col-4 m-2 btn-lg ms-2"
-                                                onClick={() =>
-                                                    console.log(compte)
-                                                }
+                                                onClick={(e) => update(e)}
                                             >
                                                 Valider
                                             </button>

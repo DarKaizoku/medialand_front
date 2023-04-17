@@ -9,5 +9,7 @@ export type TCompte = {
 
     prenom: string,
 
-    username: string
+    username: string,
+
+    password: string
 }

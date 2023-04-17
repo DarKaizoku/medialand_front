@@ -1,4 +1,5 @@
 import { TMedia } from '../../types/media.type'
+import { AddMedia } from './addMedia'
 import { ChangeItem } from './changeItem'
 import { DeleteItem } from './deleteItem'
 
@@ -45,8 +46,11 @@ export default function Items(props: { medias: TMedia[] }) {
     ))
 
     return (
-        <div className="row justify-content-around custom-line">
-            {affichage}
+        <div>
+            <AddMedia />
+            <div className="row justify-content-around custom-line">
+                {affichage}
+            </div>
         </div>
     )
 }

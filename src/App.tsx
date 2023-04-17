@@ -18,6 +18,7 @@ import PS5List from './components/supports/PS5-list'
 import SnesList from './components/supports/Snes-list'
 import { ChangeUser } from './components/login-register/changeUser'
 import { TCompte } from './types/compte.type'
+import { SupportProvider } from './contexts/support.context'
 
 function App() {
     const TOKEN = localStorage.getItem('token')
@@ -39,50 +40,52 @@ function App() {
             .then((response) => response.json())
             .then((data) => {
                 setCompte(data.data)
-                console.log(compte)
             })
             .catch((erreur) => `${erreur}`)
     }, [page])
 
+    //voir pour poser les providers dans l'index, plus globaux p^lus claire
     return (
         <MediaProvider>
-            <div>
-                <div className="container h-100 text-center pb-5">
-                    {!TOKEN && <CarouselVideo />}
+            <SupportProvider>
+                <div>
+                    <div className="container h-100 text-center pb-5">
+                        {!TOKEN && <CarouselVideo />}
 
-                    <Neon TOKEN={TOKEN} setPage={setPage} />
+                        <Neon TOKEN={TOKEN} setPage={setPage} />
 
-                    {page === 'Login' && <Login setPage={setPage} />}
-                    {page === 'Register' && (
-                        <Register
-                            setPage={setPage}
-                            setUser={setUser}
-                            user={user!}
-                        />
-                    )}
-                    {page === 'MonCompte' && (
-                        <ChangeUser
-                            setPage={setPage}
-                            compte={compte!}
-                            setCompte={setCompte}
-                        />
-                    )}
-                    {TOKEN && (
-                        <RecupMedia
-                            TOKEN={TOKEN!}
-                            setPage={setPage}
-                        ></RecupMedia>
-                    )}
+                        {page === 'Login' && <Login setPage={setPage} />}
+                        {page === 'Register' && (
+                            <Register
+                                setPage={setPage}
+                                setUser={setUser}
+                                user={user!}
+                            />
+                        )}
+                        {page === 'MonCompte' && (
+                            <ChangeUser
+                                setPage={setPage}
+                                compte={compte!}
+                                setCompte={setCompte}
+                            />
+                        )}
+                        {TOKEN && (
+                            <RecupMedia
+                                TOKEN={TOKEN!}
+                                setPage={setPage}
+                            ></RecupMedia>
+                        )}
 
-                    {page === 'Vinyles' && <VinylesList />}
-                    {page === 'K7audio' && <K7audioList />}
-                    {page === 'Blu-ray' && <BlurayList />}
-                    {page === 'Livres' && <LivreList />}
-                    {page === 'PS5' && <PS5List />}
-                    {page === 'Snes' && <SnesList />}
+                        {page === 'Vinyles' && <VinylesList />}
+                        {page === 'K7audio' && <K7audioList />}
+                        {page === 'Blu-ray' && <BlurayList />}
+                        {page === 'Livres' && <LivreList />}
+                        {page === 'PS5' && <PS5List />}
+                        {page === 'Snes' && <SnesList />}
+                    </div>
+                    <Footer setPage={setPage} setCompte={setCompte} />
                 </div>
-                <Footer setPage={setPage} setCompte={setCompte} />
-            </div>
+            </SupportProvider>
         </MediaProvider>
     )
 }

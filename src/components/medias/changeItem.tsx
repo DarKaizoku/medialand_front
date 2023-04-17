@@ -21,13 +21,13 @@ export function ChangeItem(props: { leMedia: TMedia }) {
                 aria-hidden="true"
             >
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className="modal-content bg-dark text-white">
                         <div className="modal-header">
                             <h1
                                 className="modal-title fs-5"
                                 id="updateModalLabel"
                             >
-                                Modal title
+                                ! Modifier votre Média !
                             </h1>
                             <button
                                 type="button"
