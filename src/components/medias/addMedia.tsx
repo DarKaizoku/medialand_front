@@ -8,22 +8,36 @@ export function AddMedia() {
     const { support } = useContext(SupportContext)
     const TOKEN = localStorage.getItem('token')
     const [newMedia, setNewMedia] = useState<TNewMedia>(NEWMEDIA)
-
-    const refDuree = useRef<HTMLInputElement>(null)
-
-    //utiliser useRef pour dueée et année et support bref continuer !!!
+    const [duree, setDuree] = useState('')
+    const [format, setFormat] = useState('')
+    const [annee, setAnnee] = useState('')
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         const { name, value } = e.target
 
+        if (name === 'duree') {
+            setDuree(value)
+        }
+        if (name === 'format') {
+            setFormat(value)
+        }
+        if (name === 'annee') {
+            setAnnee(value)
+        }
+
         setNewMedia({ ...newMedia, [name]: value })
+
+        // passage des chaine de caractère en nombre pour le back
+        setNewMedia({ ...newMedia, duree: parseInt(duree) })
+        setNewMedia({ ...newMedia, format: parseInt(format) })
+        setNewMedia({ ...newMedia, annee: parseInt(annee) })
     }
 
     const submitMedia = (e: React.BaseSyntheticEvent) => {
         e.preventDefault()
-        setNewMedia({ ...newMedia, ['support']: support })
-        //setNewMedia({...newMedia,duree:refDuree})
-        console.log(refDuree.current?.value)
+        setNewMedia({ ...newMedia, ['support']: support }) // i,tégration du numero du support pour le back
+
+        console.log('data', newMedia)
 
         async function fetchData() {
             const response = await fetch('http://localhost:8000/medias', {
@@ -35,6 +49,7 @@ export function AddMedia() {
             })
 
             const responseJson = await response.json()
+            console.log(responseJson)
 
             if (responseJson.statusCode !== 201) {
                 return alert(
@@ -90,7 +105,7 @@ export function AddMedia() {
                                                 name="titre"
                                                 placeholder="..."
                                                 className="form-control form-control-lg"
-                                                onChange={(e) => inputChange(e)}
+                                                onChange={inputChange}
                                                 required
                                             />
                                             <label
@@ -106,9 +121,8 @@ export function AddMedia() {
                                             <input
                                                 type="number"
                                                 name="duree"
-                                                placeholder="durée du média"
+                                                placeholder="durée en minutes"
                                                 className="form-control form-control-lg"
-                                                ref={refDuree}
                                                 onChange={inputChange}
                                                 required
                                             />
@@ -127,7 +141,7 @@ export function AddMedia() {
                                         name="annee"
                                         placeholder="année de création/publication"
                                         className="form-control form-control-lg"
-                                        onChange={(e) => inputChange(e)}
+                                        onChange={inputChange}
                                         required
                                     />
                                     <label
@@ -144,7 +158,7 @@ export function AddMedia() {
                                         name="description"
                                         placeholder="description/avis sur le média"
                                         className="form-control form-control-lg"
-                                        onChange={(e) => inputChange(e)}
+                                        onChange={inputChange}
                                         required
                                     />
                                     <label
@@ -161,7 +175,7 @@ export function AddMedia() {
                                         name="emplacement"
                                         placeholder="Où est rangé ce média ?"
                                         className="form-control form-control-lg"
-                                        onChange={(e) => inputChange(e)}
+                                        onChange={inputChange}
                                         required
                                     />
                                     <label
@@ -175,18 +189,14 @@ export function AddMedia() {
                                 <select
                                     className="form-select"
                                     name="format"
-                                    onChange={(e) => inputChange(e)}
+                                    onChange={inputChange}
                                 >
-                                    <option selected>
+                                    <option selected defaultValue={''}>
                                         Selectionnez le format de votre média
                                     </option>
-                                    <option defaultValue={0}>Physique</option>
-                                    <option defaultValue={1}>
-                                        Dématérialisé
-                                    </option>
-                                    <option defaultValue={2}>
-                                        les deux !!
-                                    </option>
+                                    <option value={0}>Physique</option>
+                                    <option value={1}>Dématérialisé</option>
+                                    <option value={2}>les deux !!</option>
                                 </select>
                                 <label
                                     className="form-label"

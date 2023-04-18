@@ -172,7 +172,14 @@ export default function Register(props: {
                                                     type="submit"
                                                     className="btn btn-warning col-4 m-2 btn-lg ms-2"
                                                     onClick={() => {
-                                                        AddUser(user)
+                                                        if (
+                                                            AddUser(user) ===
+                                                            'OK'
+                                                        ) {
+                                                            props.setPage(
+                                                                'Login'
+                                                            )
+                                                        }
                                                     }}
                                                 >
                                                     Valider
