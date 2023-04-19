@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { TMedia } from '../../types/media.type'
 import { MediaContext } from '../../contexts/medias.context'
-import { SupportContext } from '../../contexts/support.context'
+import { SupportContext } from '../../contexts/supports.context'
+import { TSupport } from '../../types/support.type'
+import { LISTSUPPORTS } from '../../constants/listSupports'
 
 export default function RecupMedia(props: {
     TOKEN: string
@@ -10,12 +12,24 @@ export default function RecupMedia(props: {
     const { media, setMedia } = useContext(MediaContext)
     const { setSupport } = useContext(SupportContext)
 
-    let nbVinyles: number = media.filter((data) => data.support.id === 1).length
-    let nbK7audio: number = media.filter((data) => data.support.id === 2).length
-    let nbBluray: number = media.filter((data) => data.support.id === 3).length
-    let nbLivres: number = media.filter((data) => data.support.id === 4).length
-    let nbPS5: number = media.filter((data) => data.support.id === 5).length
-    let nbSnes: number = media.filter((data) => data.support.id === 6).length
+    let nbVinyles: number = media.filter(
+        (data) => (data.support as TSupport).id === 1
+    ).length
+    let nbK7audio: number = media.filter(
+        (data) => (data.support as TSupport).id === 2
+    ).length
+    let nbBluray: number = media.filter(
+        (data) => (data.support as TSupport).id === 3
+    ).length
+    let nbLivres: number = media.filter(
+        (data) => (data.support as TSupport).id === 4
+    ).length
+    let nbPS5: number = media.filter(
+        (data) => (data.support as TSupport).id === 5
+    ).length
+    let nbSnes: number = media.filter(
+        (data) => (data.support as TSupport).id === 6
+    ).length
 
     useEffect(() => {
         const options = {
@@ -44,7 +58,7 @@ export default function RecupMedia(props: {
                         title="vos Vinyles"
                         onClick={() => {
                             props.setPage('Vinyles')
-                            setSupport(1)
+                            setSupport(LISTSUPPORTS[1])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -60,7 +74,7 @@ export default function RecupMedia(props: {
                         title="vos K7-audio"
                         onClick={() => {
                             props.setPage('K7audio')
-                            setSupport(2)
+                            setSupport(LISTSUPPORTS[2])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -87,7 +101,7 @@ export default function RecupMedia(props: {
                         title="vos Blu-Ray"
                         onClick={() => {
                             props.setPage('Blu-ray')
-                            setSupport(3)
+                            setSupport(LISTSUPPORTS[3])
                         }}
                     />
                 </div>
@@ -99,7 +113,7 @@ export default function RecupMedia(props: {
                         title="vos Livres"
                         onClick={() => {
                             props.setPage('Livres')
-                            setSupport(4)
+                            setSupport(LISTSUPPORTS[4])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -115,7 +129,7 @@ export default function RecupMedia(props: {
                         title="vos jeux PS5"
                         onClick={() => {
                             props.setPage('PS5')
-                            setSupport(5)
+                            setSupport(LISTSUPPORTS[5])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -131,7 +145,7 @@ export default function RecupMedia(props: {
                         title="vos jeux de Super-Nintendo"
                         onClick={() => {
                             props.setPage('Snes')
-                            setSupport(6)
+                            setSupport(LISTSUPPORTS[6])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">

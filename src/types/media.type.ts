@@ -3,7 +3,7 @@ import { TCategorie } from "./categorie.type"
 import { TSupport } from "./support.type"
 
 export type TMedia = {
-    id: number,
+    id?: number,
     titre: string,
     duree: number, //en minutes
     description: string,
@@ -11,9 +11,9 @@ export type TMedia = {
     emplacement: string,
     format: number, //0:physique, 1:dématérialisé, 2: les deux
 
-    support: TSupport
+    support: TSupport | number,
 
-    categorie: TCategorie[]
+    categorie: TCategorie[] | number[],
 
-    auteur: TAuteur[]
+    auteur: TAuteur[] | number[]
 }

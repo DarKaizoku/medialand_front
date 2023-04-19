@@ -1,61 +1,51 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useState, BaseSyntheticEvent, ChangeEvent } from 'react'
 
 import { NEWMEDIA } from '../../constants/newMedia'
 import { TNewMedia } from '../../types/newMedia.type'
-import { SupportContext } from '../../contexts/support.context'
+import { SupportContext } from '../../contexts/supports.context'
 
 export function AddMedia() {
     const { support } = useContext(SupportContext)
     const TOKEN = localStorage.getItem('token')
     const [newMedia, setNewMedia] = useState<TNewMedia>(NEWMEDIA)
-    const [duree, setDuree] = useState('')
-    const [format, setFormat] = useState('')
-    const [annee, setAnnee] = useState('')
 
-    const inputChange = (e: React.BaseSyntheticEvent) => {
+    const inputChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
         const { name, value } = e.target
 
-        if (name === 'duree') {
-            setDuree(value)
-        }
-        if (name === 'format') {
-            setFormat(value)
-        }
-        if (name === 'annee') {
-            setAnnee(value)
-        }
+        switch (name) {
+            case 'annee':
+                return setNewMedia({ ...newMedia, annee: parseInt(value) })
 
-        setNewMedia({ ...newMedia, [name]: value })
-
-        // passage des chaine de caractère en nombre pour le back
-        setNewMedia({ ...newMedia, duree: parseInt(duree) })
-        setNewMedia({ ...newMedia, format: parseInt(format) })
-        setNewMedia({ ...newMedia, annee: parseInt(annee) })
+            case 'duree':
+                return setNewMedia({ ...newMedia, duree: parseInt(value) })
+            case 'format':
+                return setNewMedia({ ...newMedia, format: parseInt(value) })
+            default:
+                setNewMedia({ ...newMedia, [name]: value })
+                break
+        }
     }
 
-    const submitMedia = (e: React.BaseSyntheticEvent) => {
+    const submitMedia = (e: BaseSyntheticEvent) => {
         e.preventDefault()
-        setNewMedia({ ...newMedia, ['support']: support }) // i,tégration du numero du support pour le back
 
-        console.log('data', newMedia)
+        setNewMedia({ ...newMedia, support: support.id })
 
         async function fetchData() {
+            console.log('data', newMedia)
             const response = await fetch('http://localhost:8000/medias', {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${TOKEN}`,
                 },
                 body: JSON.stringify(newMedia),
             })
 
             const responseJson = await response.json()
-            console.log(responseJson)
 
-            if (responseJson.statusCode !== 201) {
-                return alert(
-                    responseJson.message.map((data: any) => data + `\n`)
-                )
-            }
             alert(responseJson.message)
         }
         fetchData()
@@ -120,6 +110,7 @@ export function AddMedia() {
                                         <div className="form-outline">
                                             <input
                                                 type="number"
+                                                pattern="[0-9]*"
                                                 name="duree"
                                                 placeholder="durée en minutes"
                                                 className="form-control form-control-lg"
@@ -138,6 +129,7 @@ export function AddMedia() {
                                 <div className="form-outline mb-4">
                                     <input
                                         type="number"
+                                        pattern="[0-9]*"
                                         name="annee"
                                         placeholder="année de création/publication"
                                         className="form-control form-control-lg"
@@ -190,8 +182,9 @@ export function AddMedia() {
                                     className="form-select"
                                     name="format"
                                     onChange={inputChange}
+                                    defaultValue={'selected'}
                                 >
-                                    <option selected defaultValue={''}>
+                                    <option defaultValue={'selected'}>
                                         Selectionnez le format de votre média
                                     </option>
                                     <option value={0}>Physique</option>
@@ -199,11 +192,65 @@ export function AddMedia() {
                                     <option value={2}>les deux !!</option>
                                 </select>
                                 <label
-                                    className="form-label"
+                                    className="form-label mb-4"
                                     htmlFor="form3Example99"
                                 >
                                     Format{' '}
                                 </label>
+                                <div className="row">
+                                    <div className="col-md-6 mb-4">
+                                        <select
+                                            className="form-select"
+                                            name="format"
+                                            onChange={inputChange}
+                                            defaultValue={'selected'}
+                                        >
+                                            <option defaultValue={'selected'}>
+                                                Selectionnez le.s catégorie.s de
+                                                votre média
+                                            </option>
+                                            <option value={0}>Physique</option>
+                                            <option value={1}>
+                                                Dématérialisé
+                                            </option>
+                                            <option value={2}>
+                                                les deux !!
+                                            </option>
+                                        </select>
+                                        <label
+                                            className="form-label"
+                                            htmlFor="form3Example99"
+                                        >
+                                            Catégorie.s{' '}
+                                        </label>
+                                    </div>
+                                    <div className="col-md-6 mb-4">
+                                        <select
+                                            className="form-select"
+                                            name="format"
+                                            onChange={inputChange}
+                                            defaultValue={'selected'}
+                                        >
+                                            <option defaultValue={'selected'}>
+                                                Selectionnez le.s auteur.e.s de
+                                                votre média
+                                            </option>
+                                            <option value={0}>Physique</option>
+                                            <option value={1}>
+                                                Dématérialisé
+                                            </option>
+                                            <option value={2}>
+                                                les deux !!
+                                            </option>
+                                        </select>
+                                        <label
+                                            className="form-label"
+                                            htmlFor="form3Example99"
+                                        >
+                                            Auteur.e.s{' '}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <div className="modal-footer">
                                 <button

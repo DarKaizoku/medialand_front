@@ -1,4 +1,6 @@
+import { TAuteur } from '../../types/auteur.type'
 import { TMedia } from '../../types/media.type'
+import { TSupport } from '../../types/support.type'
 import { AddMedia } from './addMedia'
 import { ChangeItem } from './changeItem'
 import { DeleteItem } from './deleteItem'
@@ -30,9 +32,11 @@ export default function Items(props: { medias: TMedia[] }) {
                             Année : {data.annee}
                             <br />
                             Auteur.e.s :{' '}
-                            {data.auteur.map((data) => data.nom + ` . `)}
+                            {data.auteur.map(
+                                (data) => (data as TAuteur).nom + ` . `
+                            )}
                             <br />
-                            Support : {data.support.nom}
+                            Support : {(data.support as TSupport).nom}
                         </p>
                         <p className="card-text">
                             <small className="text-body-secondary">
