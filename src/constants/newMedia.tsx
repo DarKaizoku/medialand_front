@@ -6,4 +6,6 @@ export const NEWMEDIA = {
     format: 0,
     emplacement: '',
     support: -1,
+    categorie: [],
+    auteur: [],
 }

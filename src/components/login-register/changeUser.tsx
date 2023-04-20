@@ -189,12 +189,6 @@ export function ChangeUser(props: {
                                             <button
                                                 type="button"
                                                 className="btn btn-light col-4 m-2 btn-lg"
-                                            >
-                                                Tout effacer
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn btn-light col-4 m-2 btn-lg"
                                                 onClick={() =>
                                                     props.setPage('Accueil')
                                                 }

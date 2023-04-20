@@ -4,32 +4,36 @@ import { MediaContext } from '../../contexts/medias.context'
 import { SupportContext } from '../../contexts/supports.context'
 import { TSupport } from '../../types/support.type'
 import { LISTSUPPORTS } from '../../constants/listSupports'
+import { TCompte } from '../../types/compte.type'
 
 export default function RecupMedia(props: {
     TOKEN: string
     setPage: (value: string) => void
+    compte: TCompte
+    nbUsers: number
 }) {
     const { media, setMedia } = useContext(MediaContext)
-    const { setSupport } = useContext(SupportContext)
+    const { support, setSupport } = useContext(SupportContext)
 
-    let nbVinyles: number = media.filter(
+    const nbVinyles: number = media.filter(
         (data) => (data.support as TSupport).id === 1
     ).length
-    let nbK7audio: number = media.filter(
+    const nbK7audio: number = media.filter(
         (data) => (data.support as TSupport).id === 2
     ).length
-    let nbBluray: number = media.filter(
+    const nbBluray: number = media.filter(
         (data) => (data.support as TSupport).id === 3
     ).length
-    let nbLivres: number = media.filter(
+    const nbLivres: number = media.filter(
         (data) => (data.support as TSupport).id === 4
     ).length
-    let nbPS5: number = media.filter(
+    const nbPS5: number = media.filter(
         (data) => (data.support as TSupport).id === 5
     ).length
-    let nbSnes: number = media.filter(
+    const nbSnes: number = media.filter(
         (data) => (data.support as TSupport).id === 6
     ).length
+    const totalMedia = media.length
 
     useEffect(() => {
         const options = {
@@ -39,31 +43,32 @@ export default function RecupMedia(props: {
             },
         }
 
+        //FETCH conditionné au status ADMIN ou User !!
         fetch('http://localhost:8000/medias/user', options)
             .then((response) => response.json())
             .then((response) => {
                 setMedia(response.data as TMedia[])
             })
             .catch((err) => console.error(err))
-    }, [])
+    }, [support])
 
     return (
         <div className="container-fluid">
             <div className="row justify-content-around custom-line m-3">
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
                     <img
-                        className="card-img-top Cpointer"
-                        src="./images/disk.png"
+                        className="card-img-top Cpointer m-auto mt-4 mb-4"
+                        src="./images/vinyle-V4.png"
                         alt="un vinyle"
                         title="vos Vinyles"
                         onClick={() => {
-                            props.setPage('Vinyles')
+                            props.setPage('Vinyle')
                             setSupport(LISTSUPPORTS[1])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbVinyles}
-                        <span className="visually-hidden">unread messages</span>
+                        <span className="visually-hidden"></span>
                     </span>
                 </div>
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
@@ -73,13 +78,13 @@ export default function RecupMedia(props: {
                         alt="une cassette audio"
                         title="vos K7-audio"
                         onClick={() => {
-                            props.setPage('K7audio')
+                            props.setPage('K7-Audio')
                             setSupport(LISTSUPPORTS[2])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbK7audio}
-                        <span className="visually-hidden">unread messages</span>
+                        <span className="visually-hidden"></span>
                     </span>
                 </div>
                 <div
@@ -89,9 +94,7 @@ export default function RecupMedia(props: {
                     <div className=" mb-5">
                         <span className="position-absolute top-0 start-33 translate-middle badge rounded-pill bg-danger">
                             {nbBluray}
-                            <span className="visually-hidden">
-                                unread messages
-                            </span>
+                            <span className="visually-hidden"></span>
                         </span>
                     </div>
                     <img
@@ -112,13 +115,13 @@ export default function RecupMedia(props: {
                         alt="un livre ouvert"
                         title="vos Livres"
                         onClick={() => {
-                            props.setPage('Livres')
+                            props.setPage('Livre')
                             setSupport(LISTSUPPORTS[4])
                         }}
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbLivres}
-                        <span className="visually-hidden">unread messages</span>
+                        <span className="visually-hidden"></span>
                     </span>
                 </div>
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
@@ -134,7 +137,7 @@ export default function RecupMedia(props: {
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbPS5}
-                        <span className="visually-hidden">unread messages</span>
+                        <span className="visually-hidden"></span>
                     </span>
                 </div>
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
@@ -150,9 +153,49 @@ export default function RecupMedia(props: {
                     />
                     <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         {nbSnes}
-                        <span className="visually-hidden">unread messages</span>
+                        <span className="visually-hidden"></span>
                     </span>
                 </div>
+                {props.compte?.admin && (
+                    <div
+                        className="card bg-black"
+                        style={{ width: 18 + 'rem' }}
+                    >
+                        <img
+                            className="card-img-top Cpointer"
+                            src="./images/coffre-admin.png"
+                            alt="coffre au trésor ouvert"
+                            title="liste de tous les médias"
+                            onClick={() => {
+                                props.setPage('ListMedias')
+                            }}
+                        />
+                        <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                            {totalMedia}
+                            <span className="visually-hidden"></span>
+                        </span>
+                    </div>
+                )}
+                {props.compte?.admin && (
+                    <div
+                        className="card bg-black"
+                        style={{ width: 18 + 'rem' }}
+                    >
+                        <img
+                            className="card-img-top Cpointer"
+                            src="./images/users.png"
+                            alt="logo de plusieurs utilisteurs"
+                            title="liste de tous les utilisateurs"
+                            onClick={() => {
+                                props.setPage('ListUsers')
+                            }}
+                        />
+                        <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                            {props.nbUsers}
+                            <span className="visually-hidden"></span>
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
     )

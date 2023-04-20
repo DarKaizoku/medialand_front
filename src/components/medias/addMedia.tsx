@@ -1,13 +1,32 @@
-import { useContext, useState, BaseSyntheticEvent, ChangeEvent } from 'react'
+import {
+    useContext,
+    useState,
+    BaseSyntheticEvent,
+    ChangeEvent,
+    useEffect,
+} from 'react'
 
 import { NEWMEDIA } from '../../constants/newMedia'
 import { TNewMedia } from '../../types/newMedia.type'
 import { SupportContext } from '../../contexts/supports.context'
+import { CategorieContext } from '../../contexts/categories.context'
+import { TCategorie } from '../../types/categorie.type'
+import { TAuteur } from '../../types/auteur.type'
+import { AuteurContext } from '../../contexts/auteurs.context'
+import { MediaContext } from '../../contexts/medias.context'
 
 export function AddMedia() {
-    const { support } = useContext(SupportContext)
     const TOKEN = localStorage.getItem('token')
-    const [newMedia, setNewMedia] = useState<TNewMedia>(NEWMEDIA)
+
+    const { media, setMedia } = useContext(MediaContext)
+    const { support } = useContext(SupportContext)
+    const { categorie, setCategorie } = useContext(CategorieContext)
+    const { auteur, setAuteur } = useContext(AuteurContext)
+
+    const [newMedia, setNewMedia] = useState<TNewMedia>({
+        ...NEWMEDIA,
+        support: support.id,
+    }) //object modifier à l'init car sinon décalage de 1 et donc mauvais support communiqué
 
     const inputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -17,39 +36,99 @@ export function AddMedia() {
         switch (name) {
             case 'annee':
                 return setNewMedia({ ...newMedia, annee: parseInt(value) })
-
             case 'duree':
                 return setNewMedia({ ...newMedia, duree: parseInt(value) })
             case 'format':
                 return setNewMedia({ ...newMedia, format: parseInt(value) })
+            case 'categorie':
+                return setNewMedia({
+                    ...newMedia,
+                    categorie: [parseInt(value)],
+                })
+            case 'auteur':
+                return setNewMedia({ ...newMedia, auteur: [parseInt(value)] })
             default:
                 setNewMedia({ ...newMedia, [name]: value })
                 break
         }
     }
 
-    const submitMedia = (e: BaseSyntheticEvent) => {
+    //fct qui lance la fct fetch Medias:( BONNE PRATIQUE dixit Jérémy )
+    const submitMedia = async (e: BaseSyntheticEvent) => {
         e.preventDefault()
 
-        setNewMedia({ ...newMedia, support: support.id })
-
-        async function fetchData() {
-            console.log('data', newMedia)
-            const response = await fetch('http://localhost:8000/medias', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-                body: JSON.stringify(newMedia),
-            })
-
-            const responseJson = await response.json()
-
-            alert(responseJson.message)
-        }
         fetchData()
     }
+    //fct FETCH Media
+    async function fetchData() {
+        setNewMedia({ ...newMedia, support: support.id }) // implémentation du numero du support choisi par l'user
+
+        const response = await fetch('http://localhost:8000/medias', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${TOKEN}`,
+            },
+            body: JSON.stringify(newMedia),
+        })
+
+        const responseJson = await response.json()
+
+        alert(responseJson.message)
+        if (responseJson.status === 'SUCCESS') {
+            console.log(responseJson.data)
+        }
+    }
+
+    //fetch pour alimenter le select categorie :
+    useEffect(() => {
+        const options = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }
+
+        fetch('http://localhost:8000/categories', options)
+            .then((response) => response.json())
+            .then((response) => {
+                setCategorie(response.data as TCategorie[])
+            })
+            .catch((err) => console.error(err))
+    }, [])
+
+    //Création de la liste de categorie filtrée par support :
+    const listCategorieNom = categorie
+        .filter((data) => data.support.id === support.id)
+        .map((data, i) => (
+            <option key={i} value={data.support.id}>
+                {data.nom}
+            </option>
+        ))
+
+    //fetch pour alimenter le select auteur :
+    useEffect(() => {
+        const options = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }
+
+        fetch('http://localhost:8000/auteurs', options)
+            .then((response) => response.json())
+            .then((response) => {
+                setAuteur(response.data as TAuteur[])
+            })
+            .catch((err) => console.error(err))
+    }, [])
+
+    //Création de la liste d'auteurs
+    const listAuteurs = auteur.map((data, i) => (
+        <option key={i} value={data.id}>
+            {data.nom}
+        </option>
+    ))
 
     return (
         <div>
@@ -201,7 +280,7 @@ export function AddMedia() {
                                     <div className="col-md-6 mb-4">
                                         <select
                                             className="form-select"
-                                            name="format"
+                                            name="categorie"
                                             onChange={inputChange}
                                             defaultValue={'selected'}
                                         >
@@ -209,13 +288,7 @@ export function AddMedia() {
                                                 Selectionnez le.s catégorie.s de
                                                 votre média
                                             </option>
-                                            <option value={0}>Physique</option>
-                                            <option value={1}>
-                                                Dématérialisé
-                                            </option>
-                                            <option value={2}>
-                                                les deux !!
-                                            </option>
+                                            {listCategorieNom}
                                         </select>
                                         <label
                                             className="form-label"
@@ -227,7 +300,7 @@ export function AddMedia() {
                                     <div className="col-md-6 mb-4">
                                         <select
                                             className="form-select"
-                                            name="format"
+                                            name="auteur"
                                             onChange={inputChange}
                                             defaultValue={'selected'}
                                         >
@@ -235,13 +308,7 @@ export function AddMedia() {
                                                 Selectionnez le.s auteur.e.s de
                                                 votre média
                                             </option>
-                                            <option value={0}>Physique</option>
-                                            <option value={1}>
-                                                Dématérialisé
-                                            </option>
-                                            <option value={2}>
-                                                les deux !!
-                                            </option>
+                                            {listAuteurs}
                                         </select>
                                         <label
                                             className="form-label"

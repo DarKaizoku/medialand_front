@@ -1,17 +1,45 @@
+import { useState } from 'react'
 import { TUtilisateur } from '../../types/utilisateur.type'
 import AddUser from './adduser'
 
-export default function Register(props: {
-    setPage: (value: string) => void
-    user: TUtilisateur
-    setUser: (value: TUtilisateur) => void
-}) {
-    const { user, setUser } = props
+const urlAddUser = 'http://localhost:8000/utilisateurs/register'
+
+export default function Register(props: { setPage: (value: string) => void }) {
+    const [user, setUser] = useState<TUtilisateur>()
+    const [active, setActive] = useState('')
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         const { name, value } = e.target
 
-        setUser({ ...user, [name]: value })
+        setUser({ ...user!, [name]: value })
+    }
+
+    async function AddUser() {
+        if (user!.password !== user!.passwordConfirmed) {
+            return alert('Merci de vérifier votre mot de passe !!')
+        }
+
+        async function fetchData() {
+            const response = await fetch(urlAddUser, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user),
+            })
+
+            const responseJson = await response.json()
+
+            if (responseJson.status === 'SUCCESS') {
+                alert(responseJson.message)
+                return setActive('OK')
+            }
+            alert(responseJson.message)
+        }
+        fetchData()
+        return
+    }
+
+    if (active === 'OK') {
+        props.setPage('Login')
     }
 
     return (
@@ -156,12 +184,6 @@ export default function Register(props: {
                                                 <button
                                                     type="button"
                                                     className="btn btn-light col-4 m-2 btn-lg"
-                                                >
-                                                    Tout effacer
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-light col-4 m-2 btn-lg"
                                                     onClick={() =>
                                                         props.setPage('Login')
                                                     }
@@ -171,15 +193,8 @@ export default function Register(props: {
                                                 <button
                                                     type="submit"
                                                     className="btn btn-warning col-4 m-2 btn-lg ms-2"
-                                                    onClick={() => {
-                                                        if (
-                                                            AddUser(user) ===
-                                                            'OK'
-                                                        ) {
-                                                            props.setPage(
-                                                                'Login'
-                                                            )
-                                                        }
+                                                    onClick={async () => {
+                                                        AddUser()
                                                     }}
                                                 >
                                                     Valider

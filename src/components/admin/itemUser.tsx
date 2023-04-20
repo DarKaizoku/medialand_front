@@ -1,9 +1,6 @@
 import { TAuteur } from '../../types/auteur.type'
 import { TMedia } from '../../types/media.type'
 import { TSupport } from '../../types/support.type'
-import { AddMedia } from './addMedia'
-import { ChangeItem } from './changeItem'
-import { DeleteItem } from './deleteItem'
 
 export default function Items(props: { medias: TMedia[] }) {
     const { medias } = props
@@ -19,8 +16,8 @@ export default function Items(props: { medias: TMedia[] }) {
                         title={data.titre}
                     />
                     <div className="row">
-                        <ChangeItem leMedia={data} />
-                        <DeleteItem leMedia={data} />
+                        {/* <ChangeItem leMedia={data} />
+                        <DeleteItem leMedia={data} /> */}
                     </div>
                 </div>
                 <div className="col-md-8">
@@ -38,11 +35,7 @@ export default function Items(props: { medias: TMedia[] }) {
                             <br />
                             Support : {(data.support as TSupport).nom}
                         </p>
-                        <p className="card-text">
-                            <small className="text-body-secondary">
-                                Last updated 3 mins ago
-                            </small>
-                        </p>
+                        <p className="card-text"></p>
                     </div>
                 </div>
             </div>
@@ -51,7 +44,6 @@ export default function Items(props: { medias: TMedia[] }) {
 
     return (
         <div>
-            <AddMedia />
             <div className="row justify-content-around custom-line">
                 {affichage}
             </div>

@@ -19,12 +19,11 @@ export default function AddUser(user: TUtilisateur) {
 
         if (responseJson.status === 'SUCCESS') {
             alert(responseJson.message)
-            return (registerOK = 'OK')
+            registerOK = 'OK'
         }
         alert(responseJson.message)
     }
     fetchData()
     console.log(registerOK)
-
     return registerOK
 }

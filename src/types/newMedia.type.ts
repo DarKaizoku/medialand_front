@@ -6,4 +6,6 @@ export type TNewMedia = {
     format: number,
     emplacement: string,
     support: number,
+    categorie: number[],
+    auteur: number[]
 }
