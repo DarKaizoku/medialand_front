@@ -1,7 +1,7 @@
 import { TUtilisateur } from '../../types/utilisateur.type'
 
 const urlAddUser = 'http://localhost:8000/utilisateurs/register'
-export default function AddUser(user: TUtilisateur) {
+export default function addUser(user: TUtilisateur) {
     if (user.password !== user.passwordConfirmed) {
         return alert('Merci de vérifier votre mot de passe !!')
     }
@@ -15,7 +15,6 @@ export default function AddUser(user: TUtilisateur) {
         })
 
         const responseJson = await response.json()
-        console.log(responseJson.message)
 
         if (responseJson.status === 'SUCCESS') {
             alert(responseJson.message)
@@ -24,6 +23,6 @@ export default function AddUser(user: TUtilisateur) {
         alert(responseJson.message)
     }
     fetchData()
-    console.log(registerOK)
+
     return registerOK
 }

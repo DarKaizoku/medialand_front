@@ -14,6 +14,8 @@ import { TCategorie } from '../../types/categorie.type'
 import { TAuteur } from '../../types/auteur.type'
 import { AuteurContext } from '../../contexts/auteurs.context'
 import { MediaContext } from '../../contexts/medias.context'
+import { PageContext } from '../../contexts/page.context'
+import AddCategorie from './addCategorie'
 
 export function AddMedia() {
     const TOKEN = localStorage.getItem('token')
@@ -22,7 +24,9 @@ export function AddMedia() {
     const { support } = useContext(SupportContext)
     const { categorie, setCategorie } = useContext(CategorieContext)
     const { auteur, setAuteur } = useContext(AuteurContext)
-
+    //const { setPage } = useContext(PageContext)
+    const [addOK, setAddOK] = useState('')
+    const { page } = useContext(PageContext)
     const [newMedia, setNewMedia] = useState<TNewMedia>({
         ...NEWMEDIA,
         support: support.id,
@@ -53,6 +57,10 @@ export function AddMedia() {
         }
     }
 
+    async function resetInput() {
+        setNewMedia(NEWMEDIA)
+    }
+
     //fct qui lance la fct fetch Medias:( BONNE PRATIQUE dixit Jérémy )
     const submitMedia = async (e: BaseSyntheticEvent) => {
         e.preventDefault()
@@ -77,6 +85,10 @@ export function AddMedia() {
         alert(responseJson.message)
         if (responseJson.status === 'SUCCESS') {
             console.log(responseJson.data)
+            setMedia([...media, responseJson.data])
+            setNewMedia(NEWMEDIA)
+            //setPage(((responseJson.data as TMedia).support as TSupport).nom)
+            setAddOK('OK')
         }
     }
 
@@ -129,6 +141,7 @@ export function AddMedia() {
             {data.nom}
         </option>
     ))
+    console.log(addOK)
 
     return (
         <div>
@@ -156,7 +169,7 @@ export function AddMedia() {
                                     className="modal-title fs-5"
                                     id="exampleModalLabel"
                                 >
-                                    ! Ajouter un Média !
+                                    ! Ajouter un Média de : {page} !
                                 </h1>
                                 <button
                                     type="button"
@@ -172,6 +185,7 @@ export function AddMedia() {
                                             <input
                                                 type="text"
                                                 name="titre"
+                                                value={newMedia.titre}
                                                 placeholder="..."
                                                 className="form-control form-control-lg"
                                                 onChange={inputChange}
@@ -191,6 +205,7 @@ export function AddMedia() {
                                                 type="number"
                                                 pattern="[0-9]*"
                                                 name="duree"
+                                                value={newMedia.duree}
                                                 placeholder="durée en minutes"
                                                 className="form-control form-control-lg"
                                                 onChange={inputChange}
@@ -210,6 +225,7 @@ export function AddMedia() {
                                         type="number"
                                         pattern="[0-9]*"
                                         name="annee"
+                                        value={newMedia.annee}
                                         placeholder="année de création/publication"
                                         className="form-control form-control-lg"
                                         onChange={inputChange}
@@ -227,6 +243,7 @@ export function AddMedia() {
                                     <input
                                         type="text"
                                         name="description"
+                                        value={newMedia.description}
                                         placeholder="description/avis sur le média"
                                         className="form-control form-control-lg"
                                         onChange={inputChange}
@@ -244,6 +261,7 @@ export function AddMedia() {
                                     <input
                                         type="text"
                                         name="emplacement"
+                                        value={newMedia.emplacement}
                                         placeholder="Où est rangé ce média ?"
                                         className="form-control form-control-lg"
                                         onChange={inputChange}
@@ -289,6 +307,12 @@ export function AddMedia() {
                                                 votre média
                                             </option>
                                             {listCategorieNom}
+                                            <option
+                                                data-bs-toggle="section"
+                                                data-bs-target="#categorieSection"
+                                            >
+                                                Ajouter une catégorie...
+                                            </option>
                                         </select>
                                         <label
                                             className="form-label"
@@ -317,19 +341,30 @@ export function AddMedia() {
                                             Auteur.e.s{' '}
                                         </label>
                                     </div>
+                                    <div
+                                        className="section"
+                                        id="categorieSection"
+                                    >
+                                        123
+                                    </div>
                                 </div>
                             </div>
                             <div className="modal-footer">
                                 <button
                                     type="button"
+                                    id="buttonR"
                                     className="btn btn-secondary"
                                     data-bs-dismiss="modal"
+                                    onClick={resetInput}
                                 >
                                     Annuler
                                 </button>
                                 <button
                                     type="submit"
                                     className="btn btn-primary"
+                                    data-bs-dismiss={
+                                        addOK === 'OK' ? 'modal' : ''
+                                    }
                                     onClick={(e) => submitMedia(e)}
                                 >
                                     Ajouter

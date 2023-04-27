@@ -1,52 +1,52 @@
 import { useContext } from 'react'
-import { TMedia } from '../../types/media.type'
 import { MediaContext } from '../../contexts/medias.context'
+import { TCompte } from '../../types/compte.type'
 
-//const urlUser = 'http://localhost:8000/medias/'
-
-export function DeleteItem(props: { leMedia: TMedia }) {
+export function DeleteUser(props: {
+    compte: TCompte
+    comptes: TCompte[]
+    setComptes: (value: TCompte[]) => void
+}) {
     const TOKEN = localStorage.getItem('token')
-    const { leMedia } = props
+    const { compte, comptes } = props
 
-    const { media, setMedia } = useContext(MediaContext)
-
-    const options = {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${TOKEN}`,
-        },
-    }
     const delItem = () => {
         async function fetchData() {
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            }
             const response = await fetch(
-                `http://localhost:8000/medias/${leMedia.id}`,
+                `http://localhost:8000/utilisateurs/${compte.id}`,
                 options
             )
             if (response.status === 404) {
-                return alert(`Ce média n'existe pas !`)
+                return alert(`Ce compte n'existe pas !`)
             }
             await response.json()
 
-            const newList = media.filter((data) => data.id !== leMedia.id)
-            setMedia(newList)
+            const newList = comptes.filter((data) => data.id !== compte.id)
+            props.setComptes(newList)
         }
         fetchData()
     }
 
     return (
-        <div className="col-6">
+        <div className="col-6 m-2 text-dark">
             <button
                 type="button"
-                className="btn btn-secondary btn-sm"
+                className="btn btn-warning btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target={`#deleteModal${leMedia.id}`}
+                data-bs-target={`#deleteModal${compte.id}`}
             >
                 Supprimer
             </button>
             <div
                 className="modal fade"
-                id={`deleteModal${leMedia.id}`}
+                id={`deleteModal${compte.id}`}
                 tabIndex={-1}
                 aria-labelledby="deleteModalLabel"
                 aria-hidden="true"
@@ -68,9 +68,9 @@ export function DeleteItem(props: { leMedia: TMedia }) {
                             ></button>
                         </div>
                         <div className="modal-body">
-                            Etes-vous sur de vouloir supprimer le média :
+                            Etes-vous sur de vouloir supprimer le compte de :
                             <br />
-                            {leMedia.titre}
+                            {compte.username}
                         </div>
                         <div className="modal-footer">
                             <button

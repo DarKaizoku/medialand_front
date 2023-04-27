@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { TUtilisateur } from '../../types/utilisateur.type'
-import AddUser from './adduser'
+import AddUser from '../functions/adduser'
 
 const urlAddUser = 'http://localhost:8000/utilisateurs/register'
 

@@ -5,15 +5,16 @@ import { SupportContext } from '../../contexts/supports.context'
 import { TSupport } from '../../types/support.type'
 import { LISTSUPPORTS } from '../../constants/listSupports'
 import { TCompte } from '../../types/compte.type'
+import { PageContext } from '../../contexts/page.context'
 
 export default function RecupMedia(props: {
     TOKEN: string
-    setPage: (value: string) => void
     compte: TCompte
     nbUsers: number
 }) {
     const { media, setMedia } = useContext(MediaContext)
     const { support, setSupport } = useContext(SupportContext)
+    const { setPage } = useContext(PageContext)
 
     const nbVinyles: number = media.filter(
         (data) => (data.support as TSupport).id === 1
@@ -58,11 +59,11 @@ export default function RecupMedia(props: {
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
                     <img
                         className="card-img-top Cpointer m-auto mt-4 mb-4"
-                        src="./images/vinyle-V4.png"
+                        src="./images/Vinyle.png"
                         alt="un vinyle"
                         title="vos Vinyles"
                         onClick={() => {
-                            props.setPage('Vinyle')
+                            setPage('Vinyle')
                             setSupport(LISTSUPPORTS[1])
                         }}
                     />
@@ -74,11 +75,11 @@ export default function RecupMedia(props: {
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
                     <img
                         className="card-img-top Cpointer"
-                        src="./images/K7audio-V2.png"
+                        src="./images/K7-Audio.png"
                         alt="une cassette audio"
                         title="vos K7-audio"
                         onClick={() => {
-                            props.setPage('K7-Audio')
+                            setPage('K7-Audio')
                             setSupport(LISTSUPPORTS[2])
                         }}
                     />
@@ -103,7 +104,7 @@ export default function RecupMedia(props: {
                         alt="un disque Blu-ray"
                         title="vos Blu-Ray"
                         onClick={() => {
-                            props.setPage('Blu-ray')
+                            setPage('Blu-ray')
                             setSupport(LISTSUPPORTS[3])
                         }}
                     />
@@ -111,11 +112,11 @@ export default function RecupMedia(props: {
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
                     <img
                         className="card-img-top h-100 w-75 m-auto Cpointer"
-                        src="./images/livre.png"
+                        src="./images/Livre.png"
                         alt="un livre ouvert"
                         title="vos Livres"
                         onClick={() => {
-                            props.setPage('Livre')
+                            setPage('Livre')
                             setSupport(LISTSUPPORTS[4])
                         }}
                     />
@@ -131,7 +132,7 @@ export default function RecupMedia(props: {
                         alt="une console PS5"
                         title="vos jeux PS5"
                         onClick={() => {
-                            props.setPage('PS5')
+                            setPage('PS5')
                             setSupport(LISTSUPPORTS[5])
                         }}
                     />
@@ -143,11 +144,11 @@ export default function RecupMedia(props: {
                 <div className="card bg-black" style={{ width: 18 + 'rem' }}>
                     <img
                         className="card-img-top Cpointer"
-                        src="./images/Snes.png"
+                        src="./images/Super_Nintendo.png"
                         alt="une console Super-Nintendo"
                         title="vos jeux de Super-Nintendo"
                         onClick={() => {
-                            props.setPage('Snes')
+                            setPage('Super_Nintendo')
                             setSupport(LISTSUPPORTS[6])
                         }}
                     />
@@ -167,7 +168,7 @@ export default function RecupMedia(props: {
                             alt="coffre au trésor ouvert"
                             title="liste de tous les médias"
                             onClick={() => {
-                                props.setPage('ListMedias')
+                                setPage('ListMedias')
                             }}
                         />
                         <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -187,7 +188,7 @@ export default function RecupMedia(props: {
                             alt="logo de plusieurs utilisteurs"
                             title="liste de tous les utilisateurs"
                             onClick={() => {
-                                props.setPage('ListUsers')
+                                setPage('ListUsers')
                             }}
                         />
                         <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">

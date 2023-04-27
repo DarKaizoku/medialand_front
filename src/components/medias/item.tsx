@@ -1,19 +1,22 @@
+import { useContext } from 'react'
 import { TAuteur } from '../../types/auteur.type'
 import { TMedia } from '../../types/media.type'
-import { TSupport } from '../../types/support.type'
 import { AddMedia } from './addMedia'
 import { ChangeItem } from './changeItem'
 import { DeleteItem } from './deleteItem'
+import { PageContext } from '../../contexts/page.context'
 
 export default function Items(props: { medias: TMedia[] }) {
     const { medias } = props
+    //const { media } = useContext(MediaContext)
+    const { page, setPage } = useContext(PageContext)
 
     const affichage = medias.map((data, i) => (
         <div className="card mb-3 bg-dark" key={i} style={{ maxWidth: 540 }}>
             <div className="row g-0">
                 <div className="col-md-4 m-auto">
                     <img
-                        src="./images/disk.png"
+                        src={`./images/${page}.png`}
                         className="img-fluid rounded-start"
                         alt={data.titre}
                         title={data.titre}
@@ -36,7 +39,7 @@ export default function Items(props: { medias: TMedia[] }) {
                                 (data) => (data as TAuteur).nom + ` . `
                             )}
                             <br />
-                            Support : {(data.support as TSupport).nom}
+                            Emplacement : {data.emplacement}
                         </p>
                         <p className="card-text"></p>
                     </div>
@@ -47,7 +50,21 @@ export default function Items(props: { medias: TMedia[] }) {
 
     return (
         <div>
-            <AddMedia />
+            {page !== 'Accueil' && (
+                <h1 className="text-light">
+                    Votre Collection de Médias {page}
+                </h1>
+            )}
+            {page !== 'Accueil' && (
+                <img
+                    className="Cpointer"
+                    src="./images/retour.png"
+                    title={`Retour à l'accueil`}
+                    onClick={() => setPage('Accueil')}
+                />
+            )}
+            {page !== 'Accueil' && <AddMedia />}
+            {/* si list global pas d'ajout d'item mais consultation/modification et suppression */}
             <div className="row justify-content-around custom-line">
                 {affichage}
             </div>

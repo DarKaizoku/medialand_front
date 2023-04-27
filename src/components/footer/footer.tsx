@@ -1,12 +1,13 @@
+import { useContext } from 'react'
+import { PageContext } from '../../contexts/page.context'
 import { TCompte } from '../../types/compte.type'
-import { TUtilisateur } from '../../types/utilisateur.type'
 
 export default function Footer(props: {
-    setPage: (value: string) => void
     setCompte: (value: TCompte | undefined) => void
 }) {
     const TOKEN = localStorage.getItem('token')
-    const { setPage, setCompte } = props
+    const { setCompte } = props
+    const { setPage } = useContext(PageContext)
 
     return (
         <div className="container mt-3">

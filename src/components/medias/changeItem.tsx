@@ -1,53 +1,103 @@
 import { useContext, useState } from 'react'
-import { NEWMEDIA } from '../../constants/newMedia'
 import { SupportContext } from '../../contexts/supports.context'
 import { TMedia } from '../../types/media.type'
 import { TNewMedia } from '../../types/newMedia.type'
+import { MediaContext } from '../../contexts/medias.context'
+import { log } from 'console'
 
 export function ChangeItem(props: { leMedia: TMedia }) {
     const { leMedia } = props
+    type TnewMedia = Partial<TMedia>
+
     const { support } = useContext(SupportContext)
+    const { media, setMedia } = useContext(MediaContext)
+
+    //const leMedia = media.filter((data) => data.id === props.leMedia)[0]!
+
     const TOKEN = localStorage.getItem('token')
-    const [newMedia, setNewMedia] = useState<TNewMedia>(NEWMEDIA)
+
+    const [newMedia, setNewMedia] = useState<TnewMedia>()
     const [duree, setDuree] = useState('')
     const [format, setFormat] = useState(-1)
     const [annee, setAnnee] = useState('')
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
+        // a verifier
         const { name, value } = e.target
 
         if (name === 'duree') {
             setDuree(value)
+            return setNewMedia({ ...newMedia, duree: parseInt(duree) })
         }
-        /* if (name === 'format') {
+        if (name === 'format') {
             setFormat(value)
-        } */
+            return setNewMedia({ ...newMedia, format: format })
+        }
 
         if (name === 'annee') {
             setAnnee(value)
+            return setNewMedia({ ...newMedia, annee: parseInt(annee) })
         }
+        //console.log(value)
+
+        //console.log('before', newMedia)
 
         setNewMedia({ ...newMedia, [name]: value })
 
+        //console.log('after', newMedia)
+
         // passage des chaine de caractère en nombre pour le back
-        setNewMedia({ ...newMedia, duree: parseInt(duree) })
-        setNewMedia({ ...newMedia, format: format })
-        setNewMedia({ ...newMedia, annee: parseInt(annee) })
+    }
+
+    const updateItem = (e: React.BaseSyntheticEvent) => {
+        e.preventDefault()
+
+        async function fetchData() {
+            console.log('ID', leMedia.id)
+            console.log('body', newMedia)
+
+            const options = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+                body: JSON.stringify(newMedia),
+            }
+
+            const response = await fetch(
+                `http://localhost:8000/medias/${leMedia.id}`,
+                options
+            )
+
+            const responseJson = await response.json()
+            alert(responseJson.message)
+
+            const newList = media.filter(
+                (data) => data.id !== (responseJson.data as TMedia).id
+            )
+            setMedia([...newList, responseJson.data])
+        }
+        fetchData()
+    }
+
+    if (!leMedia) {
+        return null
     }
 
     return (
         <div className="col-6">
             <button
                 type="button"
-                className="btn btn-primary btn-sm"
+                className="btn btn-warning btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#updateModal"
+                data-bs-target={`#updateModal${leMedia.id}`}
             >
                 Modifier
             </button>
             <div
-                className="modal fade"
-                id="updateModal"
+                className="modal"
+                id={`updateModal${leMedia.id}`}
                 tabIndex={-1}
                 aria-labelledby="updateModalLabel"
                 aria-hidden="true"
@@ -185,22 +235,24 @@ export function ChangeItem(props: { leMedia: TMedia }) {
                                 Format{' '}
                             </label>
                         </div>
-                    </div>
-                    <div className="modal-footer">
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                        >
-                            Annuler
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            data-bs-dismiss="modal"
-                        >
-                            Enregistrer
-                        </button>
+
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Annuler
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                onClick={(e) => updateItem(e)}
+                            >
+                                Enregistrer
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

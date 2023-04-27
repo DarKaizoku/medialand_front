@@ -11,6 +11,8 @@ export type TMedia = {
     emplacement: string,
     format: number, //0:physique, 1:dématérialisé, 2: les deux
 
+    //proprietaire: [],
+
     support: TSupport | number,
 
     categorie: TCategorie[] | number[],

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import './App.css'
 
 import Login from './components/login-register/login'
@@ -17,13 +17,17 @@ import { ChangeUser } from './components/login-register/changeUser'
 import { TCompte } from './types/compte.type'
 import { ListAllMedias } from './components/admin/listAllMedias'
 import { ListAllUsers } from './components/admin/listAllUsers'
+import { PageContext } from './contexts/page.context'
+import Search from './components/search'
+import { MediaContext } from './contexts/medias.context'
 
 function App() {
     const TOKEN = localStorage.getItem('token')
 
-    const [page, setPage] = useState<string>('Accueil')
-    const [nbUsers, setNbUsers] = useState<number>(0)
-    const [users, setUsers] = useState([])
+    const { page, setPage } = useContext(PageContext)
+    const { media } = useContext(MediaContext)
+
+    const [users, setUsers] = useState<TCompte[]>([])
     const [compte, setCompte] = useState<TCompte | undefined>()
 
     useEffect(() => {
@@ -41,10 +45,8 @@ function App() {
                 setCompte(data.data)
             })
             .catch((erreur) => `${erreur}`)
-    }, [page])
 
-    useEffect(() => {
-        const options = {
+        const options2 = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,38 +54,52 @@ function App() {
             },
         }
 
-        fetch('http://localhost:8000/utilisateurs/users', options)
+        fetch('http://localhost:8000/utilisateurs/users', options2)
             .then((response) => response.json())
             .then((data) => {
                 setUsers(data.data)
             })
             .catch((erreur) => `${erreur}`)
+    }, [page])
 
-        setNbUsers(users.length)
-    }, [])
+    /* useEffect(() => {
+        console.log('123')
+
+        const options2 = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }
+
+        fetch('http://localhost:8000/utilisateurs/users', options2)
+            .then((response) => response.json())
+            .then((data) => {
+                setUsers(data.data)
+            })
+            .catch((erreur) => `${erreur}`)
+    }, []) */
+    console.log(page)
 
     return (
         <div>
             <div className="container h-100 text-center pb-5">
                 {!TOKEN && <CarouselVideo />}
 
-                <Neon setPage={setPage} />
+                <Neon />
 
                 {page === 'Login' && <Login setPage={setPage} />}
                 {page === 'Register' && <Register setPage={setPage} />}
                 {page === 'MonCompte' && (
-                    <ChangeUser
-                        setPage={setPage}
-                        compte={compte!}
-                        setCompte={setCompte}
-                    />
+                    <ChangeUser compte={compte!} setCompte={setCompte} />
                 )}
-                {TOKEN && (
+                {page === 'Accueil' && TOKEN && <Search media={media} />}
+                {page === 'Accueil' && TOKEN && (
                     <RecupMedia
                         TOKEN={TOKEN!}
-                        setPage={setPage}
                         compte={compte!}
-                        nbUsers={nbUsers}
+                        nbUsers={users?.length}
                     ></RecupMedia>
                 )}
 
@@ -92,13 +108,13 @@ function App() {
                 {page === 'Blu-ray' && <BlurayList />}
                 {page === 'Livre' && <LivreList />}
                 {page === 'PS5' && <PS5List />}
-                {page === 'Snes' && <SnesList />}
+                {page === 'Super_Nintendo' && <SnesList />}
                 {page === 'ListMedias' && <ListAllMedias />}
                 {page === 'ListUsers' && (
-                    <ListAllUsers setNbUsers={setNbUsers} />
+                    <ListAllUsers users={users} setUsers={setUsers} />
                 )}
             </div>
-            <Footer setPage={setPage} setCompte={setCompte} />
+            <Footer setCompte={setCompte} />
         </div>
     )
 }

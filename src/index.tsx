@@ -7,6 +7,7 @@ import { SupportProvider } from './contexts/supports.context'
 import { CategorieProvider } from './contexts/categories.context'
 import { AuteurProvider } from './contexts/auteurs.context'
 import { MediaProvider } from './contexts/medias.context'
+import { PageProvider } from './contexts/page.context'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -15,7 +16,9 @@ root.render(
             <CategorieProvider>
                 <AuteurProvider>
                     <MediaProvider>
-                        <App />
+                        <PageProvider>
+                            <App />
+                        </PageProvider>
                     </MediaProvider>
                 </AuteurProvider>
             </CategorieProvider>

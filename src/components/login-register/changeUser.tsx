@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { TCompte } from '../../types/compte.type'
+import { PageContext } from '../../contexts/page.context'
 
 export function ChangeUser(props: {
-    setPage: (value: string) => void
     compte: TCompte
     setCompte: (value: TCompte) => void
 }) {
     const { compte, setCompte } = props
     const TOKEN = localStorage.getItem('token')
 
-    const [mdpOK, setMdpOK] = useState<string>('')
+    const { setPage } = useContext(PageContext)
+
+    const [mdpOK, setMdpOK] = useState<string | undefined>()
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         const { name, value } = e.target
@@ -23,7 +25,7 @@ export function ChangeUser(props: {
     const update = (e: React.BaseSyntheticEvent) => {
         e.preventDefault()
 
-        if (compte.password !== mdpOK) {
+        if (!compte.password && compte.password !== mdpOK) {
             return alert('Vérifiez la saisie du mot de passe')
         }
 
@@ -190,7 +192,7 @@ export function ChangeUser(props: {
                                                 type="button"
                                                 className="btn btn-light col-4 m-2 btn-lg"
                                                 onClick={() =>
-                                                    props.setPage('Accueil')
+                                                    setPage('Accueil')
                                                 }
                                             >
                                                 Annuler
