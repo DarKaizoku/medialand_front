@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { TUtilisateur } from '../../types/utilisateur.type'
-import AddUser from '../functions/adduser'
+import { PageContext } from '../../contexts/page.context'
 
 const urlAddUser = 'http://localhost:8000/utilisateurs/register'
 
-export default function Register(props: { setPage: (value: string) => void }) {
+export default function Register() {
     const [user, setUser] = useState<TUtilisateur>()
     const [active, setActive] = useState('')
+
+    const { setPage } = useContext(PageContext)
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         const { name, value } = e.target
@@ -39,7 +41,7 @@ export default function Register(props: { setPage: (value: string) => void }) {
     }
 
     if (active === 'OK') {
-        props.setPage('Login')
+        setPage('Accueil')
     }
 
     return (
@@ -185,7 +187,7 @@ export default function Register(props: { setPage: (value: string) => void }) {
                                                     type="button"
                                                     className="btn btn-light col-4 m-2 btn-lg"
                                                     onClick={() =>
-                                                        props.setPage('Login')
+                                                        setPage('Login')
                                                     }
                                                 >
                                                     Annuler

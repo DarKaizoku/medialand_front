@@ -31,7 +31,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
                 return alert(responseJson.message)
             }
             const token = responseJson.access_token
-            localStorage.setItem('token', token)
+            sessionStorage.setItem('token', token)
 
             props.setPage('Accueil')
         }

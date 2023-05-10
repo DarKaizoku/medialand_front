@@ -4,7 +4,7 @@ import { TMedia } from '../types/media.type'
 import Items from './medias/item'
 
 export default function Search(props: { media: TMedia[] }) {
-    const { page, setPage } = useContext(PageContext)
+    const { setPage } = useContext(PageContext)
     const [word, setWord] = useState<string>('')
     const [result, setResult] = useState<TMedia[]>([])
 
@@ -17,7 +17,6 @@ export default function Search(props: { media: TMedia[] }) {
             )
         )
     }
-    console.log(word)
 
     return (
         <>
@@ -40,6 +39,7 @@ export default function Search(props: { media: TMedia[] }) {
                 <button
                     type="button"
                     className="ms-3 rounded"
+                    hidden={word ? false : true}
                     onClick={() => {
                         setWord('')
                         setResult([])

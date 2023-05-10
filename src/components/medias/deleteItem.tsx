@@ -5,7 +5,7 @@ import { MediaContext } from '../../contexts/medias.context'
 //const urlUser = 'http://localhost:8000/medias/'
 
 export function DeleteItem(props: { leMedia: TMedia }) {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
     const { leMedia } = props
 
     const { media, setMedia } = useContext(MediaContext)

@@ -8,6 +8,5 @@ export default function SnesList() {
     const listVinyl = media.filter(
         (data) => (data.support as TSupport).nom === 'Super_Nintendo'
     )
-
     return <Items medias={listVinyl} />
 }

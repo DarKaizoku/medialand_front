@@ -16,17 +16,19 @@ import { AuteurContext } from '../../contexts/auteurs.context'
 import { MediaContext } from '../../contexts/medias.context'
 import { PageContext } from '../../contexts/page.context'
 import AddCategorie from './addCategorie'
+import { TSupport } from '../../types/support.type'
+import AddAuteur from './addAuteur'
 
 export function AddMedia() {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
 
     const { media, setMedia } = useContext(MediaContext)
     const { support } = useContext(SupportContext)
     const { categorie, setCategorie } = useContext(CategorieContext)
     const { auteur, setAuteur } = useContext(AuteurContext)
-    //const { setPage } = useContext(PageContext)
     const [addOK, setAddOK] = useState('')
-    const { page } = useContext(PageContext)
+    const [ajout, setAjout] = useState('')
+    const { page, setPage } = useContext(PageContext)
     const [newMedia, setNewMedia] = useState<TNewMedia>({
         ...NEWMEDIA,
         support: support.id,
@@ -45,12 +47,27 @@ export function AddMedia() {
             case 'format':
                 return setNewMedia({ ...newMedia, format: parseInt(value) })
             case 'categorie':
+                if (parseInt(value)) {
+                    return setNewMedia({
+                        ...newMedia,
+                        categorie: [parseInt(value)],
+                    })
+                }
                 return setNewMedia({
                     ...newMedia,
-                    categorie: [parseInt(value)],
+                    categorie: [],
                 })
             case 'auteur':
-                return setNewMedia({ ...newMedia, auteur: [parseInt(value)] })
+                if (parseInt(value)) {
+                    return setNewMedia({
+                        ...newMedia,
+                        auteur: [parseInt(value)],
+                    })
+                }
+                return setNewMedia({
+                    ...newMedia,
+                    categorie: [],
+                })
             default:
                 setNewMedia({ ...newMedia, [name]: value })
                 break
@@ -64,6 +81,11 @@ export function AddMedia() {
     //fct qui lance la fct fetch Medias:( BONNE PRATIQUE dixit Jérémy )
     const submitMedia = async (e: BaseSyntheticEvent) => {
         e.preventDefault()
+        setAddOK('')
+        console.log(newMedia)
+        if (isNaN(newMedia.format)) {
+            return alert('Merci de selectionner un format pour votre média !!')
+        }
 
         fetchData()
     }
@@ -82,14 +104,13 @@ export function AddMedia() {
 
         const responseJson = await response.json()
 
-        alert(responseJson.message)
         if (responseJson.status === 'SUCCESS') {
-            console.log(responseJson.data)
             setMedia([...media, responseJson.data])
-            setNewMedia(NEWMEDIA)
+            setNewMedia({ ...NEWMEDIA, support: newMedia.support })
             //setPage(((responseJson.data as TMedia).support as TSupport).nom)
-            setAddOK('OK')
+            setAddOK('modal')
         }
+        alert(responseJson.message)
     }
 
     //fetch pour alimenter le select categorie :
@@ -107,13 +128,13 @@ export function AddMedia() {
                 setCategorie(response.data as TCategorie[])
             })
             .catch((err) => console.error(err))
-    }, [])
+    }, [support])
 
     //Création de la liste de categorie filtrée par support :
     const listCategorieNom = categorie
-        .filter((data) => data.support.id === support.id)
+        .filter((data) => (data.support as TSupport).id === support.id)
         .map((data, i) => (
-            <option key={i} value={data.support.id}>
+            <option key={i} value={data.id}>
                 {data.nom}
             </option>
         ))
@@ -133,7 +154,7 @@ export function AddMedia() {
                 setAuteur(response.data as TAuteur[])
             })
             .catch((err) => console.error(err))
-    }, [])
+    }, [support])
 
     //Création de la liste d'auteurs
     const listAuteurs = auteur.map((data, i) => (
@@ -141,7 +162,6 @@ export function AddMedia() {
             {data.nom}
         </option>
     ))
-    console.log(addOK)
 
     return (
         <div>
@@ -286,7 +306,9 @@ export function AddMedia() {
                                     </option>
                                     <option value={0}>Physique</option>
                                     <option value={1}>Dématérialisé</option>
-                                    <option value={2}>les deux !!</option>
+                                    <option value={2}>
+                                        Physique & Dématérialisé
+                                    </option>
                                 </select>
                                 <label
                                     className="form-label mb-4"
@@ -307,12 +329,6 @@ export function AddMedia() {
                                                 votre média
                                             </option>
                                             {listCategorieNom}
-                                            <option
-                                                data-bs-toggle="section"
-                                                data-bs-target="#categorieSection"
-                                            >
-                                                Ajouter une catégorie...
-                                            </option>
                                         </select>
                                         <label
                                             className="form-label"
@@ -341,12 +357,8 @@ export function AddMedia() {
                                             Auteur.e.s{' '}
                                         </label>
                                     </div>
-                                    <div
-                                        className="section"
-                                        id="categorieSection"
-                                    >
-                                        123
-                                    </div>
+                                    <AddCategorie support={support} />
+                                    <AddAuteur />
                                 </div>
                             </div>
                             <div className="modal-footer">
@@ -355,7 +367,10 @@ export function AddMedia() {
                                     id="buttonR"
                                     className="btn btn-secondary"
                                     data-bs-dismiss="modal"
-                                    onClick={resetInput}
+                                    onClick={() => {
+                                        resetInput()
+                                        setAjout('selected')
+                                    }}
                                 >
                                     Annuler
                                 </button>
@@ -363,7 +378,7 @@ export function AddMedia() {
                                     type="submit"
                                     className="btn btn-primary"
                                     data-bs-dismiss={
-                                        addOK === 'OK' ? 'modal' : ''
+                                        addOK /* === 'OK' ? 'modal' : '' */
                                     }
                                     onClick={(e) => submitMedia(e)}
                                 >

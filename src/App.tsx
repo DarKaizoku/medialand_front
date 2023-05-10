@@ -22,7 +22,7 @@ import Search from './components/search'
 import { MediaContext } from './contexts/medias.context'
 
 function App() {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
 
     const { page, setPage } = useContext(PageContext)
     const { media } = useContext(MediaContext)
@@ -80,17 +80,16 @@ function App() {
             })
             .catch((erreur) => `${erreur}`)
     }, []) */
-    console.log(page)
 
     return (
         <div>
             <div className="container h-100 text-center pb-5">
-                {!TOKEN && <CarouselVideo />}
+                {!TOKEN && page === 'Accueil' && <CarouselVideo />}
 
                 <Neon />
 
                 {page === 'Login' && <Login setPage={setPage} />}
-                {page === 'Register' && <Register setPage={setPage} />}
+                {page === 'Register' && <Register />}
                 {page === 'MonCompte' && (
                     <ChangeUser compte={compte!} setCompte={setCompte} />
                 )}

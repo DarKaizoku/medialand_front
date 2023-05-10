@@ -4,7 +4,7 @@ import { MediaContext } from '../../contexts/medias.context'
 import Items from '../medias/item'
 
 export function ListAllMedias() {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
     const { media, setMedia } = useContext(MediaContext)
 
     useEffect(() => {

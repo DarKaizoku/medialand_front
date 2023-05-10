@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { PageContext } from '../contexts/page.context'
 
 export default function Neon() {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
 
     const { setPage } = useContext(PageContext)
     return (
@@ -11,7 +11,7 @@ export default function Neon() {
                 className="img-fluid Cpointer"
                 src="./images/Neon.gif"
                 alt="Logo MediaLand"
-                title={`Retour à l'accueil`}
+                title={TOKEN ? `Retour à l'accueil` : 'Login & Register'}
                 onClick={() => (!TOKEN ? setPage('Login') : setPage('Accueil'))}
             />
         </div>

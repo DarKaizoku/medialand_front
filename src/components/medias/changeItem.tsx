@@ -1,25 +1,19 @@
 import { useContext, useState } from 'react'
-import { SupportContext } from '../../contexts/supports.context'
 import { TMedia } from '../../types/media.type'
-import { TNewMedia } from '../../types/newMedia.type'
 import { MediaContext } from '../../contexts/medias.context'
-import { log } from 'console'
 
 export function ChangeItem(props: { leMedia: TMedia }) {
     const { leMedia } = props
     type TnewMedia = Partial<TMedia>
 
-    const { support } = useContext(SupportContext)
     const { media, setMedia } = useContext(MediaContext)
 
     //const leMedia = media.filter((data) => data.id === props.leMedia)[0]!
 
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
 
-    const [newMedia, setNewMedia] = useState<TnewMedia>()
+    const [newMedia, setNewMedia] = useState<TnewMedia | undefined>()
     const [duree, setDuree] = useState('')
-    const [format, setFormat] = useState(-1)
-    const [annee, setAnnee] = useState('')
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         // a verifier
@@ -29,33 +23,18 @@ export function ChangeItem(props: { leMedia: TMedia }) {
             setDuree(value)
             return setNewMedia({ ...newMedia, duree: parseInt(duree) })
         }
-        if (name === 'format') {
-            setFormat(value)
-            return setNewMedia({ ...newMedia, format: format })
-        }
 
         if (name === 'annee') {
-            setAnnee(value)
-            return setNewMedia({ ...newMedia, annee: parseInt(annee) })
+            return setNewMedia({ ...newMedia, annee: +value })
         }
-        //console.log(value)
-
-        //console.log('before', newMedia)
 
         setNewMedia({ ...newMedia, [name]: value })
-
-        //console.log('after', newMedia)
-
-        // passage des chaine de caractère en nombre pour le back
     }
 
     const updateItem = (e: React.BaseSyntheticEvent) => {
         e.preventDefault()
 
         async function fetchData() {
-            console.log('ID', leMedia.id)
-            console.log('body', newMedia)
-
             const options = {
                 method: 'PATCH',
                 headers: {
@@ -216,10 +195,13 @@ export function ChangeItem(props: { leMedia: TMedia }) {
                             <select
                                 className="form-select"
                                 name="format"
-                                onChange={(e) =>
-                                    setFormat(parseInt(e.currentTarget.value))
+                                onClick={(e) =>
+                                    setNewMedia({
+                                        ...newMedia,
+                                        format: parseInt(e.currentTarget.value),
+                                    })
                                 }
-                                value={format}
+                                defaultValue={leMedia.format}
                             >
                                 <option value={-1}>
                                     Selectionnez le format de votre média

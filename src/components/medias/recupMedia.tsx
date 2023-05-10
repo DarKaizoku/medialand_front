@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { TMedia } from '../../types/media.type'
 import { MediaContext } from '../../contexts/medias.context'
 import { SupportContext } from '../../contexts/supports.context'
@@ -60,7 +60,7 @@ export default function RecupMedia(props: {
                     <img
                         className="card-img-top Cpointer m-auto mt-4 mb-4"
                         src="./images/Vinyle.png"
-                        alt="un vinyle"
+                        alt="un vinyle debout sur un tourne disque datant du début du XIXème siècle"
                         title="vos Vinyles"
                         onClick={() => {
                             setPage('Vinyle')
@@ -165,7 +165,7 @@ export default function RecupMedia(props: {
                         <img
                             className="card-img-top Cpointer"
                             src="./images/coffre-admin.png"
-                            alt="coffre au trésor ouvert"
+                            alt=" un coffre au trésor ouvert, d'où s'échappe une lumière vive"
                             title="liste de tous les médias"
                             onClick={() => {
                                 setPage('ListMedias')
@@ -185,7 +185,7 @@ export default function RecupMedia(props: {
                         <img
                             className="card-img-top Cpointer"
                             src="./images/users.png"
-                            alt="logo de plusieurs utilisteurs"
+                            alt="des avatars utilisateurs empilés, sous forme de pyramide"
                             title="liste de tous les utilisateurs"
                             onClick={() => {
                                 setPage('ListUsers')

@@ -1,7 +1,7 @@
 export {}
 /* export function getCategories() {
 
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
 
     const [categorie]
 

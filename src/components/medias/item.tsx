@@ -5,19 +5,26 @@ import { AddMedia } from './addMedia'
 import { ChangeItem } from './changeItem'
 import { DeleteItem } from './deleteItem'
 import { PageContext } from '../../contexts/page.context'
+import { TSupport } from '../../types/support.type'
+import { FORMATLIST } from '../../constants/formatList'
+import { TCategorie } from '../../types/categorie.type'
 
 export default function Items(props: { medias: TMedia[] }) {
     const { medias } = props
     //const { media } = useContext(MediaContext)
     const { page, setPage } = useContext(PageContext)
 
-    const affichage = medias.map((data, i) => (
-        <div className="card mb-3 bg-dark" key={i} style={{ maxWidth: 540 }}>
+    const affichage = medias.map((data) => (
+        <div
+            className="card mb-3 bg-dark"
+            key={data.id}
+            style={{ maxWidth: 540 }}
+        >
             <div className="row g-0">
                 <div className="col-md-4 m-auto">
                     <img
-                        src={`./images/${page}.png`}
-                        className="img-fluid rounded-start"
+                        src={`./images/${(data.support as TSupport).nom}.png`}
+                        className="img-fluid rounded-start w-75"
                         alt={data.titre}
                         title={data.titre}
                     />
@@ -39,7 +46,12 @@ export default function Items(props: { medias: TMedia[] }) {
                                 (data) => (data as TAuteur).nom + ` . `
                             )}
                             <br />
+                            Format : {FORMATLIST[data.format]}
+                            <br />
                             Emplacement : {data.emplacement}
+                            <br />
+                            Catégorie :{' '}
+                            {(data.categorie as TCategorie[])[0]?.nom}
                         </p>
                         <p className="card-text"></p>
                     </div>
@@ -60,6 +72,7 @@ export default function Items(props: { medias: TMedia[] }) {
                     className="Cpointer"
                     src="./images/retour.png"
                     title={`Retour à l'accueil`}
+                    alt={`Retour à l'accueil`}
                     onClick={() => setPage('Accueil')}
                 />
             )}

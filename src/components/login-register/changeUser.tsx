@@ -7,7 +7,7 @@ export function ChangeUser(props: {
     setCompte: (value: TCompte) => void
 }) {
     const { compte, setCompte } = props
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
 
     const { setPage } = useContext(PageContext)
 

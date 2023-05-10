@@ -5,7 +5,7 @@ import { TCompte } from '../../types/compte.type'
 export default function Footer(props: {
     setCompte: (value: TCompte | undefined) => void
 }) {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
     const { setCompte } = props
     const { setPage } = useContext(PageContext)
 
@@ -22,7 +22,7 @@ export default function Footer(props: {
                                 title="Déconnexion"
                                 onClick={() => {
                                     setPage('Accueil')
-                                    localStorage.setItem('token', '')
+                                    sessionStorage.removeItem('token')
                                     setCompte(undefined)
                                 }}
                             />

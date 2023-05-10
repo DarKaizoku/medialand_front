@@ -1,5 +1,3 @@
-import { useContext } from 'react'
-import { MediaContext } from '../../contexts/medias.context'
 import { TCompte } from '../../types/compte.type'
 
 export function DeleteUser(props: {
@@ -7,7 +5,7 @@ export function DeleteUser(props: {
     comptes: TCompte[]
     setComptes: (value: TCompte[]) => void
 }) {
-    const TOKEN = localStorage.getItem('token')
+    const TOKEN = sessionStorage.getItem('token')
     const { compte, comptes } = props
 
     const delItem = () => {
