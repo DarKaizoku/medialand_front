@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { PageContext } from '../../contexts/page.context'
 
 const urlLogin = 'http://localhost:8000/auth/login'
 
-export default function Login(props: { setPage: (value: string) => void }) {
+export default function Login() {
     const dataLogin = {
         username: '',
         password: '',
     }
+    const { page, setPage } = useContext(PageContext)
     const [dataInput, setDataInput] = useState(dataLogin)
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
@@ -27,13 +29,13 @@ export default function Login(props: { setPage: (value: string) => void }) {
 
             const responseJson = await response.json()
             if (responseJson.statusCode === 401) {
-                props.setPage('Accueil')
+                setPage('Accueil')
                 return alert(responseJson.message)
             }
             const token = responseJson.access_token
             sessionStorage.setItem('token', token)
 
-            props.setPage('Accueil')
+            setPage('Accueil')
         }
         fetchData()
     }
@@ -121,9 +123,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                             className="btn btn-outline-light btn-sm px-5 mt-3"
                                             type="button"
                                             data-bs-dismiss="alert"
-                                            onClick={() =>
-                                                props.setPage('Accueil')
-                                            }
+                                            onClick={() => setPage('Accueil')}
                                         >
                                             Annuler
                                         </button>
@@ -136,7 +136,7 @@ export default function Login(props: { setPage: (value: string) => void }) {
                                                 href="#!"
                                                 className="text-white-50 fw-bold"
                                                 onClick={() =>
-                                                    props.setPage('Register')
+                                                    setPage('Register')
                                                 }
                                             >
                                                 Enregistrez-vous

@@ -41,6 +41,8 @@ export default function Items(props: { medias: TMedia[] }) {
                             <br />
                             Année : {data.annee}
                             <br />
+                            Durée : {`${data.duree} minutes`}
+                            <br />
                             Auteur.e.s :{' '}
                             {data.auteur.map(
                                 (data) => (data as TAuteur).nom + ` . `

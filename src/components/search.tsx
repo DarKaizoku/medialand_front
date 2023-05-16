@@ -2,9 +2,12 @@ import { BaseSyntheticEvent, useContext, useState } from 'react'
 import { PageContext } from '../contexts/page.context'
 import { TMedia } from '../types/media.type'
 import Items from './medias/item'
+import { MediaContext } from '../contexts/medias.context'
 
-export default function Search(props: { media: TMedia[] }) {
+export default function Search() {
     const { setPage } = useContext(PageContext)
+    const { media } = useContext(MediaContext)
+
     const [word, setWord] = useState<string>('')
     const [result, setResult] = useState<TMedia[]>([])
 
@@ -12,9 +15,7 @@ export default function Search(props: { media: TMedia[] }) {
         e.preventDefault()
 
         setResult(
-            props.media.filter((data) =>
-                data.titre.toLowerCase().includes(word)
-            )
+            media.filter((data) => data.titre.toLowerCase().includes(word))
         )
     }
 

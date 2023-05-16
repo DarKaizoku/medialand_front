@@ -26,9 +26,8 @@ export function AddMedia() {
     const { support } = useContext(SupportContext)
     const { categorie, setCategorie } = useContext(CategorieContext)
     const { auteur, setAuteur } = useContext(AuteurContext)
-    const [addOK, setAddOK] = useState('')
     const [ajout, setAjout] = useState('')
-    const { page, setPage } = useContext(PageContext)
+    const { page } = useContext(PageContext)
     const [newMedia, setNewMedia] = useState<TNewMedia>({
         ...NEWMEDIA,
         support: support.id,
@@ -81,8 +80,6 @@ export function AddMedia() {
     //fct qui lance la fct fetch Medias:( BONNE PRATIQUE dixit Jérémy )
     const submitMedia = async (e: BaseSyntheticEvent) => {
         e.preventDefault()
-        setAddOK('')
-        console.log(newMedia)
         if (isNaN(newMedia.format)) {
             return alert('Merci de selectionner un format pour votre média !!')
         }
@@ -107,8 +104,6 @@ export function AddMedia() {
         if (responseJson.status === 'SUCCESS') {
             setMedia([...media, responseJson.data])
             setNewMedia({ ...NEWMEDIA, support: newMedia.support })
-            //setPage(((responseJson.data as TMedia).support as TSupport).nom)
-            setAddOK('modal')
         }
         alert(responseJson.message)
     }
@@ -377,9 +372,7 @@ export function AddMedia() {
                                 <button
                                     type="submit"
                                     className="btn btn-primary"
-                                    data-bs-dismiss={
-                                        addOK /* === 'OK' ? 'modal' : '' */
-                                    }
+                                    data-bs-dismiss="modal"
                                     onClick={(e) => submitMedia(e)}
                                 >
                                     Ajouter

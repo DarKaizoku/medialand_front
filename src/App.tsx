@@ -19,13 +19,11 @@ import { ListAllMedias } from './components/admin/listAllMedias'
 import { ListAllUsers } from './components/admin/listAllUsers'
 import { PageContext } from './contexts/page.context'
 import Search from './components/search'
-import { MediaContext } from './contexts/medias.context'
 
 function App() {
     const TOKEN = sessionStorage.getItem('token')
 
-    const { page, setPage } = useContext(PageContext)
-    const { media } = useContext(MediaContext)
+    const { page } = useContext(PageContext)
 
     const [users, setUsers] = useState<TCompte[]>([])
     const [compte, setCompte] = useState<TCompte | undefined>()
@@ -62,25 +60,6 @@ function App() {
             .catch((erreur) => `${erreur}`)
     }, [page])
 
-    /* useEffect(() => {
-        console.log('123')
-
-        const options2 = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${TOKEN}`,
-            },
-        }
-
-        fetch('http://localhost:8000/utilisateurs/users', options2)
-            .then((response) => response.json())
-            .then((data) => {
-                setUsers(data.data)
-            })
-            .catch((erreur) => `${erreur}`)
-    }, []) */
-
     return (
         <div>
             <div className="container h-100 text-center pb-5">
@@ -88,12 +67,12 @@ function App() {
 
                 <Neon />
 
-                {page === 'Login' && <Login setPage={setPage} />}
+                {page === 'Login' && <Login />}
                 {page === 'Register' && <Register />}
                 {page === 'MonCompte' && (
                     <ChangeUser compte={compte!} setCompte={setCompte} />
                 )}
-                {page === 'Accueil' && TOKEN && <Search media={media} />}
+                {page === 'Accueil' && TOKEN && <Search />}
                 {page === 'Accueil' && TOKEN && (
                     <RecupMedia
                         TOKEN={TOKEN!}

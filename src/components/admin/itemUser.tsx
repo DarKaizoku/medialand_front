@@ -34,13 +34,15 @@ export default function ItemUser(props: {
                             Status : {data.admin ? 'Admin' : 'User'}
                         </p>
                         <p className="card-text"></p>
-                        <div className="row justify-content-center">
-                            <DeleteUser
-                                compte={data}
-                                comptes={comptes}
-                                setComptes={setComptes}
-                            />
-                        </div>
+                        {data.admin === false && (
+                            <div className="row justify-content-center">
+                                <DeleteUser
+                                    compte={data}
+                                    comptes={comptes}
+                                    setComptes={setComptes}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

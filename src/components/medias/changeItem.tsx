@@ -13,15 +13,15 @@ export function ChangeItem(props: { leMedia: TMedia }) {
     const TOKEN = sessionStorage.getItem('token')
 
     const [newMedia, setNewMedia] = useState<TnewMedia | undefined>()
-    const [duree, setDuree] = useState('')
+    //const [duree, setDuree] = useState('')
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
         // a verifier
         const { name, value } = e.target
 
         if (name === 'duree') {
-            setDuree(value)
-            return setNewMedia({ ...newMedia, duree: parseInt(duree) })
+            //setDuree(value)
+            return setNewMedia({ ...newMedia, duree: parseInt(value) })
         }
 
         if (name === 'annee') {
