@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { TUtilisateur } from '../../types/utilisateur.type'
 import { PageContext } from '../../contexts/page.context'
 
-const urlAddUser = 'http://localhost:8000/utilisateurs/register'
+const urlAddUser = process.env.REACT_APP_URL_REGISTER!
 
 export default function Register() {
     const [user, setUser] = useState<TUtilisateur>()

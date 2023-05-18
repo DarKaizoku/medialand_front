@@ -15,8 +15,7 @@ export function ListAllMedias() {
             },
         }
 
-        //FETCH conditionné au status ADMIN ou User !!
-        fetch('http://localhost:8000/medias', options)
+        fetch(process.env.REACT_APP_URL_MEDIAS!, options)
             .then((response) => response.json())
             .then((response) => {
                 setMedia(response.data as TMedia[])

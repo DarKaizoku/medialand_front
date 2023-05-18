@@ -44,8 +44,7 @@ export default function RecupMedia(props: {
             },
         }
 
-        //FETCH conditionné au status ADMIN ou User !!
-        fetch('http://localhost:8000/medias/user', options)
+        fetch(process.env.REACT_APP_URL_MEDIAS! + '/user', options)
             .then((response) => response.json())
             .then((response) => {
                 setMedia(response.data as TMedia[])

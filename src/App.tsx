@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
 import './App.css'
-
 import Login from './components/login-register/login'
 import Neon from './components/neon'
 import Register from './components/login-register/register'
@@ -37,7 +36,7 @@ function App() {
             },
         }
 
-        fetch('http://localhost:8000/utilisateurs/moncompte', options)
+        fetch(process.env.REACT_APP_URL_COMPTE!, options)
             .then((response) => response.json())
             .then((data) => {
                 setCompte(data.data)
@@ -51,8 +50,7 @@ function App() {
                 Authorization: `Bearer ${TOKEN}`,
             },
         }
-
-        fetch('http://localhost:8000/utilisateurs/users', options2)
+        fetch(process.env.REACT_APP_URL_USERS!, options2)
             .then((response) => response.json())
             .then((data) => {
                 setUsers(data.data)

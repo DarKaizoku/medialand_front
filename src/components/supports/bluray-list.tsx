@@ -5,9 +5,9 @@ import { TSupport } from '../../types/support.type'
 export default function BlurayList() {
     const { media } = useContext(MediaContext)
 
-    const listVinyl = media.filter(
+    const listItems = media.filter(
         (data) => (data.support as TSupport).nom === 'Blu-ray'
     )
 
-    return <Items medias={listVinyl} />
+    return <Items medias={listItems} />
 }

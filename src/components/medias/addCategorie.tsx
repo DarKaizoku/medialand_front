@@ -24,7 +24,7 @@ export default function AddCategorie(props: { support: TSupport }) {
     }
 
     async function fetchData(newCategorie: Partial<TCategorie>) {
-        const response = await fetch('http://localhost:8000/categories', {
+        const response = await fetch(process.env.REACT_APP_URL_CATEGORIES!, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

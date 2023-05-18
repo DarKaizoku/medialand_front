@@ -18,7 +18,7 @@ export function DeleteUser(props: {
                 },
             }
             const response = await fetch(
-                `http://localhost:8000/utilisateurs/${compte.id}`,
+                process.env.REACT_APP_URL_UTILISATEUR! + `/${compte.id}`,
                 options
             )
             if (response.status === 404) {

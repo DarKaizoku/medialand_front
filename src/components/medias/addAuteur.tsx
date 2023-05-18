@@ -20,7 +20,7 @@ export default function AddAuteur() {
     }
 
     async function fetchData(newAuteur: Partial<TAuteur>) {
-        const response = await fetch('http://localhost:8000/Auteurs', {
+        const response = await fetch(process.env.REACT_APP_URL_AUTEURS!, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

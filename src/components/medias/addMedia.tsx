@@ -89,8 +89,9 @@ export function AddMedia() {
     //fct FETCH Media
     async function fetchData() {
         setNewMedia({ ...newMedia, support: support.id }) // implémentation du numero du support choisi par l'user
+        console.log(newMedia)
 
-        const response = await fetch('http://localhost:8000/medias', {
+        const response = await fetch(process.env.REACT_APP_URL_MEDIAS!, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +118,10 @@ export function AddMedia() {
             },
         }
 
-        fetch('http://localhost:8000/categories', options)
+        fetch(
+            process.env.REACT_APP_URL_CATEGORIES! + `/support/${support.id}`,
+            options
+        )
             .then((response) => response.json())
             .then((response) => {
                 setCategorie(response.data as TCategorie[])
@@ -126,13 +130,11 @@ export function AddMedia() {
     }, [support])
 
     //Création de la liste de categorie filtrée par support :
-    const listCategorieNom = categorie
-        .filter((data) => (data.support as TSupport).id === support.id)
-        .map((data, i) => (
-            <option key={i} value={data.id}>
-                {data.nom}
-            </option>
-        ))
+    const listCategorieNom = categorie.map((data, i) => (
+        <option key={i} value={data.id}>
+            {data.nom}
+        </option>
+    ))
 
     //fetch pour alimenter le select auteur :
     useEffect(() => {
@@ -143,7 +145,7 @@ export function AddMedia() {
             },
         }
 
-        fetch('http://localhost:8000/auteurs', options)
+        fetch(process.env.REACT_APP_URL_AUTEURS!, options)
             .then((response) => response.json())
             .then((response) => {
                 setAuteur(response.data as TAuteur[])

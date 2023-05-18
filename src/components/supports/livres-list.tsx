@@ -5,9 +5,9 @@ import { TSupport } from '../../types/support.type'
 export default function LivreList() {
     const { media } = useContext(MediaContext)
 
-    const listVinyl = media.filter(
+    const listItems = media.filter(
         (data) => (data.support as TSupport).nom === 'Livre'
     )
 
-    return <Items medias={listVinyl} />
+    return <Items medias={listItems} />
 }

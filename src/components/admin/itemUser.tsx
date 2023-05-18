@@ -15,7 +15,7 @@ export default function ItemUser(props: {
             <div className="row g-0">
                 <div className="col-md-4 m-auto">
                     <img
-                        src="./images/Blu-ray_GIF.gif"
+                        src="./images/deadpool.png"
                         className="img-fluid rounded-start"
                         alt="avatar généré aléatoirement"
                         title={data.username}

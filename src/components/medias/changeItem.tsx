@@ -45,7 +45,7 @@ export function ChangeItem(props: { leMedia: TMedia }) {
             }
 
             const response = await fetch(
-                `http://localhost:8000/medias/${leMedia.id}`,
+                process.env.REACT_APP_URL_MEDIAS! + `/${leMedia.id}`,
                 options
             )
 

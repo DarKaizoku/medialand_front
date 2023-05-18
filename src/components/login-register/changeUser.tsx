@@ -40,7 +40,7 @@ export function ChangeUser(props: {
             body: jsonCompte,
         }
 
-        fetch('http://localhost:8000/utilisateurs/update', options)
+        fetch(process.env.REACT_APP_URL_UPDATE_UTILISATEUR!, options)
             .then((response) => response.json())
             .then((data) => setCompte(data))
 
