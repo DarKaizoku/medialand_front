@@ -126,7 +126,7 @@ export function AddMedia() {
     }, [support, TOKEN, setCategorie])
 
     //Création de la liste de categorie filtrée par support :
-    const listCategorieNom = categorie.map((data, i) => (
+    const listCategorieNom = categorie?.map((data, i) => (
         <option key={i} value={data.id}>
             {data.nom}
         </option>
