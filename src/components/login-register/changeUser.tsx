@@ -47,6 +47,7 @@ export function ChangeUser(props: {
             .catch((erreur) => `${erreur}`)
 
         alert('Votre compte a été modifié avec Succès !!')
+        setPage('Accueil')
     }
 
     return (

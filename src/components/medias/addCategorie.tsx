@@ -14,8 +14,6 @@ export default function AddCategorie(props: { support: TSupport }) {
 
     function addCategorie(e: SyntheticEvent) {
         e.preventDefault()
-        console.log(input, support.id)
-
         const newCategorie: Partial<TCategorie> = {
             nom: input,
             support: support.id,

@@ -16,7 +16,6 @@ import { AuteurContext } from '../../contexts/auteurs.context'
 import { MediaContext } from '../../contexts/medias.context'
 import { PageContext } from '../../contexts/page.context'
 import AddCategorie from './addCategorie'
-import { TSupport } from '../../types/support.type'
 import AddAuteur from './addAuteur'
 
 export function AddMedia() {
@@ -26,8 +25,8 @@ export function AddMedia() {
     const { support } = useContext(SupportContext)
     const { categorie, setCategorie } = useContext(CategorieContext)
     const { auteur, setAuteur } = useContext(AuteurContext)
-    const [ajout, setAjout] = useState('')
     const { page } = useContext(PageContext)
+
     const [newMedia, setNewMedia] = useState<TNewMedia>({
         ...NEWMEDIA,
         support: support.id,
@@ -88,9 +87,6 @@ export function AddMedia() {
     }
     //fct FETCH Media
     async function fetchData() {
-        setNewMedia({ ...newMedia, support: support.id }) // implémentation du numero du support choisi par l'user
-        console.log(newMedia)
-
         const response = await fetch(process.env.REACT_APP_URL_MEDIAS!, {
             method: 'POST',
             headers: {
@@ -127,7 +123,7 @@ export function AddMedia() {
                 setCategorie(response.data as TCategorie[])
             })
             .catch((err) => console.error(err))
-    }, [support])
+    }, [support, TOKEN, setCategorie])
 
     //Création de la liste de categorie filtrée par support :
     const listCategorieNom = categorie.map((data, i) => (
@@ -151,7 +147,7 @@ export function AddMedia() {
                 setAuteur(response.data as TAuteur[])
             })
             .catch((err) => console.error(err))
-    }, [support])
+    }, [support, TOKEN, setAuteur])
 
     //Création de la liste d'auteurs
     const listAuteurs = auteur.map((data, i) => (
@@ -366,7 +362,6 @@ export function AddMedia() {
                                     data-bs-dismiss="modal"
                                     onClick={() => {
                                         resetInput()
-                                        setAjout('selected')
                                     }}
                                 >
                                     Annuler

@@ -14,53 +14,69 @@ export default function Items(props: { medias: TMedia[] }) {
     //const { media } = useContext(MediaContext)
     const { page, setPage } = useContext(PageContext)
 
-    const affichage = medias.map((data) => (
-        <div
-            className="card mb-3 bg-dark"
-            key={data.id}
-            style={{ maxWidth: 540 }}
-        >
-            <div className="row g-0">
-                <div className="col-md-4 m-auto">
-                    <img
-                        src={`./images/${(data.support as TSupport).nom}.png`}
-                        className="img-fluid rounded-start w-75"
-                        alt={data.titre}
-                        title={data.titre}
-                    />
-                    <div className="row">
-                        <ChangeItem leMedia={data} />
-                        <DeleteItem leMedia={data} />
+    const affichage = medias.map((data) => {
+        console.log(
+            (data.support as TSupport).nom ===
+                ('Vinyle' || 'K7-Audio' || 'Blu-ray')
+        )
+        return (
+            <div
+                className="card mb-3 bg-dark"
+                key={data.id}
+                style={{ maxWidth: 540 }}
+            >
+                <div className="row g-0">
+                    <div className="col-md-4 m-auto">
+                        <img
+                            src={`./images/${
+                                (data.support as TSupport).nom
+                            }.png`}
+                            className="img-fluid rounded-start w-75"
+                            alt={data.titre}
+                            title={data.titre}
+                        />
+                        <div className="row">
+                            <ChangeItem leMedia={data} />
+                            <DeleteItem leMedia={data} />
+                        </div>
                     </div>
-                </div>
-                <div className="col-md-8">
-                    <div className="card-body text-light">
-                        <h5 className="card-title">{data.titre}</h5>
-                        <p className="card-text mt-3 p-0">
-                            Description : {data.description}
-                            <br />
-                            Année : {data.annee}
-                            <br />
-                            Durée : {`${data.duree} minutes`}
-                            <br />
-                            Auteur.e.s :{' '}
-                            {data.auteur.map(
-                                (data) => (data as TAuteur).nom + ` . `
-                            )}
-                            <br />
-                            Format : {FORMATLIST[data.format]}
-                            <br />
-                            Emplacement : {data.emplacement}
-                            <br />
-                            Catégorie :{' '}
-                            {(data.categorie as TCategorie[])[0]?.nom}
-                        </p>
-                        <p className="card-text"></p>
+                    <div className="col-md-8">
+                        <div className="card-body text-light">
+                            <h5 className="card-title">{data.titre}</h5>
+                            <p className="card-text mt-3 p-0">
+                                Description : {data.description}
+                                <br />
+                                Année : {data.annee}
+                                {(data.support as TSupport).nom === 'Vinyle' ||
+                                (data.support as TSupport).nom === 'K7-Audio' ||
+                                (data.support as TSupport).nom === 'Blu-ray' ? (
+                                    <>
+                                        <br />
+                                        Durée : {`${data.duree} minutes`}
+                                    </>
+                                ) : (
+                                    ''
+                                )}
+                                <br />
+                                Auteur.e.s :{' '}
+                                {data.auteur.map(
+                                    (data) => (data as TAuteur).nom + ` . `
+                                )}
+                                <br />
+                                Format : {FORMATLIST[data.format]}
+                                <br />
+                                Emplacement : {data.emplacement}
+                                <br />
+                                Catégorie :{' '}
+                                {(data.categorie as TCategorie[])[0]?.nom}
+                            </p>
+                            <p className="card-text"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    ))
+        )
+    })
 
     return (
         <div>
