@@ -45,14 +45,14 @@ export default function Footer(props: {
                         © 2023 Copyright:{' '}
                         <button
                             type="button"
-                            className="btn btn-dark pt-0"
+                            className="btn btn-dark pt-0 border border-light-2"
                             data-bs-toggle="modal"
                             data-bs-target="#copyrightModal"
                         >
                             {` W A M`}
                         </button>
                     </div>
-                    <a className="Cpointer col-2 col-lg-1 pt-2" href="#">
+                    <a className="Cpointer col-2 col-lg-1 pt-2" href="#/">
                         <div>
                             <img
                                 className="m-auto img-fluid"

@@ -30,6 +30,8 @@ export function AddMedia() {
     const [newMedia, setNewMedia] = useState<TNewMedia>({
         ...NEWMEDIA,
         support: support.id,
+        duree: '' as unknown as number,
+        annee: '' as unknown as number,
     }) //object modifier à l'init car sinon décalage de 1 et donc mauvais support communiqué
 
     const inputChange = (
@@ -123,7 +125,9 @@ export function AddMedia() {
                 setCategorie(response.data as TCategorie[])
             })
             .catch((err) => console.error(err))
-    }, [support, TOKEN, setCategorie])
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [support, TOKEN])
 
     //Création de la liste de categorie filtrée par support :
     const listCategorieNom = categorie?.map((data, i) => (
@@ -147,7 +151,9 @@ export function AddMedia() {
                 setAuteur(response.data as TAuteur[])
             })
             .catch((err) => console.error(err))
-    }, [support, TOKEN, setAuteur])
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [support, TOKEN])
 
     //Création de la liste d'auteurs
     const listAuteurs = auteur.map((data, i) => (
