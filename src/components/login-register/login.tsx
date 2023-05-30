@@ -8,7 +8,7 @@ export default function Login() {
         username: '',
         password: '',
     }
-    const { page, setPage } = useContext(PageContext)
+    const { setPage } = useContext(PageContext)
     const [dataInput, setDataInput] = useState(dataLogin)
 
     const inputChange = (e: React.BaseSyntheticEvent) => {
@@ -80,6 +80,11 @@ export default function Login() {
                                             <a
                                                 className="text-white-50"
                                                 href="#!"
+                                                onClick={() =>
+                                                    alert(
+                                                        `!! en développement !!`
+                                                    )
+                                                }
                                             >
                                                 Pseudo oublié ?
                                             </a>
@@ -105,6 +110,11 @@ export default function Login() {
                                             <a
                                                 className="text-white-50"
                                                 href="#!"
+                                                onClick={() =>
+                                                    alert(
+                                                        `!! en développement !!`
+                                                    )
+                                                }
                                             >
                                                 Mot de Passe oublié ?
                                             </a>

@@ -52,7 +52,7 @@ export default function Footer(props: {
                             {` W A M`}
                         </button>
                     </div>
-                    <a className="Cpointer col-2 col-lg-1 pt-2" href="#/">
+                    <a className="Cpointer col-2 col-lg-1 pt-2" href="#top">
                         <div>
                             <img
                                 className="m-auto img-fluid"

@@ -50,7 +50,8 @@ export default function RecupMedia(props: {
                 setMedia(response.data as TMedia[])
             })
             .catch((err) => console.error(err))
-    }, [support])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [support, props.TOKEN])
 
     return (
         <div className="container-fluid">
